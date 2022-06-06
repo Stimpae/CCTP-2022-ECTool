@@ -15,8 +15,8 @@ namespace ECTool.Scripts.EditorTools
         protected int m_tabSelected = 0;
         
         // list of the editors displaying
-        protected List<Editor> m_editors;
         protected Editor m_settingEditor;
+        protected Editor m_detailsEditor;
         
         // custom GUI skin
         public GUISkin m_skin;
@@ -28,7 +28,7 @@ namespace ECTool.Scripts.EditorTools
         {
             // set the system skin to default
             GUI.skin = m_skin;
-            
+
             // Draw the inspector modified properties (this is for the default inspector settings)
             DrawPropertiesExcluding(serializedObject, "m_Script");
             

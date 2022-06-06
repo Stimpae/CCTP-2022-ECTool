@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshGrassSO: ScriptableObject
+[Serializable]
+public class MeshGrassSO : ScriptableObject
 {
+    public string Name { get; } = "Mesh";
+    
     [Header("Grass Cards")] [Range(1, 10)] 
     public int count = 1;
-    
+    public int meshGrass = 1;
     // card type
     // size
     // randomness

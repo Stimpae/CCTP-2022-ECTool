@@ -18,13 +18,11 @@ public class GrassGenerator : MonoBehaviour
     
     // Collection of the spawned objects
     private List<MeshObject> m_grassObjects = new List<MeshObject>();
-    private List<MeshObject> m_customGrassObjects = new List<MeshObject>();
     private List<MeshObject> m_meshObjects = new List<MeshObject>();
     
     // Collection of the spawned scriptable objects (these should correspond with the objects created?_
-    private List<MeshGrassSO> m_meshSO = new List<MeshGrassSO>();
-    private List<GrassCardSO> m_cardSO = new List<GrassCardSO>();
-    private List<CustomGrassCardSO> m_customCardSO = new List<CustomGrassCardSO>();
+    [SerializeField, HideInInspector]
+    private List<ScriptableObject>  m_testing = new List<ScriptableObject>();
     
     // feel like this can be in its own object as well
     [HideInInspector] public SettingsData settingsData;
@@ -37,19 +35,36 @@ public class GrassGenerator : MonoBehaviour
     /// <param name="option"> The enum option of what needs to be created </param>
     /// <typeparam name="T"> The type of scriptable object to be created </typeparam>
     /// <exception cref="ArgumentOutOfRangeException"> default options type exception </exception>
-    public void CreateObject<T>( T type, EGrassOptions option) where T : ScriptableObject
+    public void CreateObject<T>( T type, EGrassOptions option, int index) where T : ScriptableObject
     {
         // need to get the parent somewhere here as well
         switch (option)
         {
+            // need to check if something can be parented down here
             case EGrassOptions.GRASSCARD:
-                m_cardSO.Add(type as GrassCardSO);
-                break;
-            case EGrassOptions.CUSTOMCARD:
-                m_customCardSO.Add(type as CustomGrassCardSO);
+                if (index >= 0)
+                {
+                    // adds at the targeted index
+                    m_testing.Insert(index, type as GrassCardSO);
+                }
+                else
+                {
+                    // adds at the end of the index
+                    m_testing.Add(type as GrassCardSO);
+                }
+                
                 break;
             case EGrassOptions.MESH:
-                m_meshSO.Add(type as MeshGrassSO);
+                if (index >= 0)
+                {
+                    // adds at the targeted index
+                    m_testing.Insert(index, type as MeshGrassSO);
+                }
+                else
+                {
+                    // adds at the end of the index
+                    m_testing.Add(type as MeshGrassSO);
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
@@ -64,6 +79,9 @@ public class GrassGenerator : MonoBehaviour
         // Creates a new instance of the settings data
         settingsData = ScriptableObject.CreateInstance<SettingsData>();
         
+        // Reset our lists to default 
+        m_testing = new List<ScriptableObject>();
+
         // Rebuilds all of the grass cards
         RebuildGrassCards();
     }

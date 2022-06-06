@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ECTool.Scripts.EditorTools.Enumerations;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,33 +17,34 @@ namespace ECTool.Scripts.EditorTools
         private GrassGenerator m_grassGenerator;
         
         // list of the names of the tabs created 
-        private List<string> m_objectTabs = new List<string>();
-        private int m_objectTabSelected = 0;
+        private int m_objectTabSelected = -1;
         
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             
             // find the serialized object data within our targeted object
             m_grassGenerator = (GrassGenerator) target;
-        
+            
             // create the settings editor and update the object
             var settingData = serializedObject.FindProperty("settingsData");
             CreateCachedEditor(settingData.objectReferenceValue, GetType(), ref m_settingEditor);
             m_settingEditor.serializedObject.Update();
         }
         
-        /// <summary>
+        /// <summary>CreateCachedEditor(settingData.objectReferenceValue, GetType(), ref m_settingEditor);
         /// Overriden creation tab. Outlines the drop down menu for each of the object creation options for this class.
         /// Handles the styling and GUI layout of these elements.
         /// </summary>
         protected override void CreationTab()
         {
+            var grassCardSO = serializedObject.FindProperty("m_testing");
+            
             // Creates a drop down menu and adds all available options to this, linking the creation
             // function with the appropriate enum value for the option selected
             GenericMenu menu = new GenericMenu();
             menu.AddItem(new GUIContent("Add Grass Card"), false, CreateItemClicked, EGrassOptions.GRASSCARD);
-            menu.AddItem(new GUIContent("Add Custom Grass Card"), false, CreateItemClicked, EGrassOptions.CUSTOMCARD);
             menu.AddItem(new GUIContent("Add Mesh"), false, CreateItemClicked, EGrassOptions.MESH);
             
             // Adds a drop down button which display the menu when clicked
@@ -51,13 +53,24 @@ namespace ECTool.Scripts.EditorTools
                 menu.ShowAsContext();
             }
             
+            // Loop through the current list and display the each card
+            DrawObjectList(grassCardSO);
+
+            EditorGUILayout.Space();
+            
             // Draws a window style box that contains all of the tabs created from the options menu
-            GUILayout.BeginVertical("window");
-            if (m_objectTabs.Count > 0)
+            if (m_objectTabSelected >= 0)
             {
-                m_objectTabSelected = GUILayout.SelectionGrid(m_objectTabSelected, m_objectTabs.ToArray(),1);
+                GUILayout.BeginVertical("window");
+                
+               var data = grassCardSO.GetArrayElementAtIndex(m_objectTabSelected);
+                CreateCachedEditor(data.objectReferenceValue, GetType(), ref m_detailsEditor);
+                DrawFocusedObject();
+                
+                GUILayout.EndVertical();
             }
-            GUILayout.EndVertical();
+            
+            serializedObject.ApplyModifiedProperties();
         }
         
         /// <summary>
@@ -77,32 +90,25 @@ namespace ECTool.Scripts.EditorTools
         /// <param name="option"> the string value of the enumeration value that needs to be added as a tab option </param>
         private void AddNewObject(string option)
         {
-            // not sure what this is doing yet
-            int index = m_objectTabs.Count + 1;
-        
+            // Used for inserting objects at certain positions (prerequisite for parenting)
+            int indexToAdd = m_objectTabSelected >= 0 ? m_objectTabSelected + 1 : -1;
+            
             // Switches between string options and adds the appropriate scriptable to the selected class
             switch (option)
-            {
+            { 
+                    
                 case "GRASSCARD":
                     
-                    /*
                     GrassCardSO card = ScriptableObject.CreateInstance<GrassCardSO>();
-                    // add this as a new class that's holds the type and editor so we can loop through these etc etc
+                    m_grassGenerator.CreateObject(card, EGrassOptions.GRASSCARD, indexToAdd);
                     
-                    m_grassGenerator.CreateObject(card, EGrassOptions.GRASSCARD);
-                    */
-                    
-                    m_objectTabs.Add("Grass Card");
-                    break;
-                case "CUSTOMCARD":
-
-                    EditorGUI.indentLevel++;
-                    m_objectTabs.Add("Custom Grass Card");
                     break;
                 case "MESH":
-                    m_objectTabs.Add("Mesh");
+                    
+                    MeshGrassSO mesh = ScriptableObject.CreateInstance<MeshGrassSO>();
+                    m_grassGenerator.CreateObject(mesh, EGrassOptions.MESH, indexToAdd);
+
                     break;
-            
             }
         }
         
@@ -119,6 +125,64 @@ namespace ECTool.Scripts.EditorTools
             {
                 // need to put our save function here-> need a save object we can
                 // create at the beginning of each thing and then combine it with this
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void DrawFocusedObject()
+        {
+            DrawPropertiesExcluding(m_detailsEditor.serializedObject, "m_Script");
+            if (GUI.changed)
+            {
+                
+            }
+            m_detailsEditor.serializedObject.ApplyModifiedProperties();
+        }
+        
+        private void DrawObjectList(SerializedProperty list)
+        {
+            for (int i = 0; i < list.arraySize; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                
+                SerializedProperty property = list.GetArrayElementAtIndex(i);
+
+                switch (property.objectReferenceValue)
+                {
+                    case MeshGrassSO meshGrassSo:
+                        name = meshGrassSo.Name;
+                        break;
+                    case GrassCardSO enemyObject:
+                        name = enemyObject.Name;
+                        break;
+                }
+
+                if (i == m_objectTabSelected)
+                {
+                    if (GUILayout.Button(name.ToString(), GUI.skin.FindStyle("ECButtonSelected"),  GUILayout.Height(18)))
+                    {
+                        // select the appropriate index of the list
+                        m_objectTabSelected = -1;
+                    }  
+                }
+                else
+                {
+                    if (GUILayout.Button(name.ToString(), "ECButton", GUILayout.Height(18)))
+                    {
+                        // select the appropriate index of the list
+                        m_objectTabSelected = i;
+                    }
+                    
+                    if (GUILayout.Button("Delete", GUILayout.Height(18), GUILayout.Width(70)))
+                    {
+                        list.DeleteArrayElementAtIndex(i);
+                        i -= 1;
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.Space(0);
             }
         }
     }

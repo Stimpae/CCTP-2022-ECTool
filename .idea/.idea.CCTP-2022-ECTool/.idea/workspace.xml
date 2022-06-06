@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4f20b884-e12d-46e8-a2a0-49a3893a8391" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Vegetation.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Settings/ForwardRenderer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Settings/ForwardRenderer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/CustomGrassCardSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/CustomGrassCardSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,18 +42,28 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/ECardTypes.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Editor/Helpers/CreateDefaultUnitySkin.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomEditor.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/SettingsData.cs" />
-        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" />
-        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" />
-        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshBuilder.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshHelper.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshObject.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/CustomGrassCardSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Editor/Helpers/CreateDefaultUnitySkin.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomEditors/CustomSimpleListEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/ECardTypes.cs" />
       </list>
     </option>
   </component>
@@ -70,6 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1653929113990</updated>
       <workItem from="1653929117179" duration="15677000" />
+      <workItem from="1654505887437" duration="27244000" />
     </task>
     <servers />
   </component>
@@ -78,21 +117,33 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="3643" y="448" key="RiderGenerateDialog" timestamp="1653997873032">
+    <state x="3643" y="448" key="RiderGenerateDialog" timestamp="1654532364450">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="3643" y="448" key="RiderGenerateDialog/0.0.1536.834/1920.0.2560.1440@1920.0.2560.1440" timestamp="1653997873032" />
+    <state x="3643" y="448" key="RiderGenerateDialog/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654532364450" />
     <state x="3403" y="0" width="1090" height="1428" key="dock-window-1" timestamp="1654007569149">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
     <state x="3403" y="0" width="1090" height="1428" key="dock-window-1/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654007569149" />
-    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup" timestamp="1654007410061">
+    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup" timestamp="1654510552201">
       <screen x="1920" y="0" width="2560" height="1440" />
     </state>
-    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654007410061" />
+    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654510552201" />
   </component>
 </project>
