@@ -18,6 +18,9 @@ namespace ECTool.Scripts.MeshTools
 
         private GameObject m_go; 
         public GameObject go { get { return m_go; } }
+
+        private GameObject m_parent = null;
+        public GameObject Parent { get { return m_parent; } }
     
         /// <summary>
         /// Encapsulates all of the methods to create a branch new game object and add all of the import mesh components
@@ -35,14 +38,37 @@ namespace ECTool.Scripts.MeshTools
             // assigns all details and sets parent
             m_go.name = name;
             m_go.tag = tag;
-            m_go.transform.SetParent(parent.transform);
+            
 
+            if (parent != null)
+            {
+                m_parent = parent;
+                m_go.transform.SetParent(parent.transform);
+            }
+            
             // creates needed components for the mesh and materials
             m_meshFilter = m_go.AddComponent<MeshFilter>();
             m_meshRenderer = m_go.AddComponent<MeshRenderer>();
             m_meshRenderer.material = material;
 
             // assigns the mesh to the shared mesh and names it (for use later when saving)
+            Mesh newMesh = new Mesh();
+            m_meshFilter.sharedMesh = newMesh;
+            m_meshFilter.sharedMesh.name = m_go.name + Random.Range(0, 1000);
+        }
+
+        public void RebuildObject(GameObject parent, Material material, string name, string tag)
+        {
+            if (parent != null)
+            {
+                m_parent = parent;
+                m_go.transform.SetParent(parent.transform);
+            }
+            
+            m_go.name = name;
+            m_go.tag = tag;
+            m_meshRenderer.material = material;
+            
             Mesh newMesh = new Mesh();
             m_meshFilter.sharedMesh = newMesh;
             m_meshFilter.sharedMesh.name = m_go.name + Random.Range(0, 1000);

@@ -21,6 +21,9 @@
                 <e p="EGrassOptions.cs" t="Include" />
               </e>
               <e p="GrassInspector.cs" t="Include" />
+              <e p="Rulesets" t="Include">
+                <e p="GrassRuleset.cs" t="Include" />
+              </e>
             </e>
             <e p="MeshTools" t="Include">
               <e p="MeshBuilder.cs" t="Include" />

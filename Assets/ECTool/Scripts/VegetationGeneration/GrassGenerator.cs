@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ECTool.Scripts.EditorTools.Enumerations;
 using ECTool.Scripts.MeshTools;
 using ECTool.Scripts.Scriptables;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -38,30 +39,79 @@ public class GrassGenerator : MonoBehaviour
     public void CreateObject<T>( T type, EGrassOptions option, int index) where T : ScriptableObject
     {
         // need to get the parent somewhere here as well
+        MeshObject meshObject;
+        
         switch (option)
         {
             // need to check if something can be parented down here
-            case EGrassOptions.GRASSCARD:
-                if (index >= 0)
+            case EGrassOptions.E_GRASSCARD:
+                
+                if (index > 0)
                 {
+                    var scriptable = m_testing[index - 1];
+                    var card = type as GrassCardSO;
+                  
+                    switch (scriptable)
+                    {
+                        case MeshGrassSO meshGrassSo:
+                            if (card is { }) card.parent = meshGrassSo.Object.go;
+                            break;
+                        case GrassCardSO grassCardSo:
+                            if (card is { }) card.parent = grassCardSo.Object.go;
+                            break;
+                    }
+                    
+                    meshObject = new MeshObject(card.parent, null, "GrassCard", "Player");
+                    if (type is GrassCardSO { } grassCard) grassCard.Object = meshObject;
+
                     // adds at the targeted index
                     m_testing.Insert(index, type as GrassCardSO);
                 }
                 else
                 {
+                    meshObject = new MeshObject(gameObject, null, "GrassCard", "Player");
+                    if (type is GrassCardSO { } grassCard)
+                    {
+                        grassCard.Object = meshObject;
+                        grassCard.parent = null;
+                    } 
+                    
                     // adds at the end of the index
                     m_testing.Add(type as GrassCardSO);
                 }
                 
                 break;
-            case EGrassOptions.MESH:
-                if (index >= 0)
+            case EGrassOptions.E_MESH:
+                
+                if (index > 0)
                 {
-                    // adds at the targeted index
+                    var scriptable = m_testing[index - 1];
+                    var card = type as MeshGrassSO;
+                    
+                    switch (scriptable)
+                    {
+                        case MeshGrassSO meshGrassSo:
+                            if (card is { }) card.parent = meshGrassSo.Object.go;
+                            break;
+                        case GrassCardSO grassCardSo:
+                            if (card is { }) card.parent = grassCardSo.Object.go;
+                            break;
+                    }
+                    
+                    meshObject = new MeshObject(card.parent, null, "MeshCard", "Player");
+                    if (type is MeshGrassSO { } meshCard) meshCard.Object = meshObject;
+                    
                     m_testing.Insert(index, type as MeshGrassSO);
                 }
                 else
-                {
+                {    
+                    meshObject = new MeshObject(gameObject, null, "MeshCard", "Player");
+                    if (type is MeshGrassSO { } meshCard)
+                    {
+                        meshCard.Object = meshObject;
+                        meshCard.parent = null;
+                    }
+
                     // adds at the end of the index
                     m_testing.Add(type as MeshGrassSO);
                 }
@@ -79,11 +129,9 @@ public class GrassGenerator : MonoBehaviour
         // Creates a new instance of the settings data
         settingsData = ScriptableObject.CreateInstance<SettingsData>();
         
-        // Reset our lists to default 
         m_testing = new List<ScriptableObject>();
-
-        // Rebuilds all of the grass cards
-        RebuildGrassCards();
+        
+        ResetGrassChildren();
     }
     
     
@@ -92,24 +140,41 @@ public class GrassGenerator : MonoBehaviour
     /// </summary>
     public void RebuildGrassCards()
     {
-        ResetGrassChildren();
-        
         Random.InitState(seed);
         
-        /*
-        m_grassObjects = new List<MeshObject>();
+        // make a grass object for each type of mesh 
+        // have to do something different for meshes but get this working first
         
-        for (int i = 0; i < grassData.count; i++)
+        // create a mesh builder for each mesh as well object as well
+
+        foreach (var scriptable in m_testing)
         {
-            MeshObject grassCard = new MeshObject(this.gameObject, grassData.grassMaterial, "grass", tag);
-            MeshBuilder meshBuilder = new MeshBuilder();
-            
-            // need to store the references to each card in here
-            // something in here to generate the card.
+            switch (scriptable)
+            {
+                case MeshGrassSO meshGrassSo:
+                    
+                    // can use this to get the previous index for parenting etc;
+                    //int meshIndex = m_testing.IndexOf(meshGrassSo);
+                    
+                    //BuildMeshGrassScriptable(meshGrassSo,);
+                    break;
+                case GrassCardSO grassCardSo:
+                    // call the card stuff 
+                    
+                    break;
+            }
         }
-        */
     }
-    
+
+    private void BuildMeshGrassScriptable(MeshGrassSO meshGrassSo)
+    {
+        
+    }
+
+    private void BuildCardGrassScriptable(GrassCardSO grassCardSo)
+    {
+        
+    }
     
     /// <summary>
     /// Gets the current number of children attached to this object and permanently deletes them.
