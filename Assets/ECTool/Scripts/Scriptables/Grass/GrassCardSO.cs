@@ -6,31 +6,30 @@ using ECTool.Scripts.MeshTools;
 using UnityEngine;
 
 [Serializable]
-public class GrassCardSO: ScriptableObject
+public class GrassCardSO: VegetationSO
 {
-    public string Name { get; } = "Grass Card";
+    GrassCardSO()
+    {
+        Name = "Grass";
+    }
+    
     public EGrassOptions Type { get; } = EGrassOptions.E_GRASSCARD;
-    public MeshObject Object { get; set; }
-    public float Depth { get; set; }
     
-    [Header("Testing")]
-    // this is just here for testing atm
-    public GameObject parent;
-    public MeshObject parentObject;
-    
-    [Header("Grass Material")]
+    [Header("Defaults")]
+    [Range(1, 30)] public int count = 1;
     public Material grassMaterial;
+    public ECardTypes cardType = ECardTypes.E_CARD;
     
-    [Header("Grass Cards")] [Range(1, 10)] 
-    public int count = 1;
-    // card type
-    // size
-    // randomness
+    [Header("Position")]
+    [Range(0, 1.0f)] public float positionVariation = 0;
     
+    [Header("Scale")]
+    [Range(0.1f, 10)] public float height = 1;
+    [Range(0.1f, 10)] public float width = 1;
+    [Range(0, 0.25f)] public float scaleVariation = 0;
     
-    // material
-    // uvs tiling amount
-    // chosen position
-    // randomise the uvs bool?
+    [Header("Rotation")]
+    [Range(-180, 180)] public float rotationVariationYaw = 0;
+    [Range(-40, 40)] public float rotationVariationPitch= 0;
 }
 

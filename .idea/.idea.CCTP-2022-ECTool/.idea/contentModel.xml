@@ -14,21 +14,12 @@
             </e>
           </e>
           <e p="Scripts" t="Include">
-            <e p="EditorTools" t="Include">
-              <e p="CustomInspector.cs" t="Include" />
-              <e p="Enumerations" t="Include">
-                <e p="ECardTypes.cs" t="Include" />
-                <e p="EGrassOptions.cs" t="Include" />
+            <e p="Generation" t="Include">
+              <e p="VegetationGeneration" t="Include">
+                <e p="Generator.cs" t="Include" />
+                <e p="GrassGenerator.cs" t="Include" />
+                <e p="TreeGenerator.cs" t="Include" />
               </e>
-              <e p="GrassInspector.cs" t="Include" />
-              <e p="Rulesets" t="Include">
-                <e p="GrassRuleset.cs" t="Include" />
-              </e>
-            </e>
-            <e p="MeshTools" t="Include">
-              <e p="MeshBuilder.cs" t="Include" />
-              <e p="MeshHelper.cs" t="Include" />
-              <e p="MeshObject.cs" t="Include" />
             </e>
             <e p="Misc" t="Include">
               <e p="SimpleCameraController.cs" t="Include" />
@@ -39,9 +30,33 @@
                 <e p="MeshGrassSO.cs" t="Include" />
               </e>
               <e p="SettingsData.cs" t="Include" />
+              <e p="Tree" t="Include">
+                <e p="BranchSO.cs" t="Include" />
+                <e p="LeavesSO.cs" t="Include" />
+                <e p="TrunkSO.cs" t="Include" />
+              </e>
+              <e p="VegetationSO.cs" t="Include" />
             </e>
-            <e p="VegetationGeneration" t="Include">
-              <e p="GrassGenerator.cs" t="Include" />
+            <e p="Tools" t="Include">
+              <e p="EditorTools" t="Include">
+                <e p="CustomInspector.cs" t="Include" />
+                <e p="Enumerations" t="Include">
+                  <e p="ECardTypes.cs" t="Include" />
+                  <e p="EGrassOptions.cs" t="Include" />
+                  <e p="ETreeOptions.cs" t="Include" />
+                </e>
+                <e p="GrassInspector.cs" t="Include" />
+                <e p="Rulesets" t="Include">
+                  <e p="GrassRuleset.cs" t="Include" />
+                  <e p="TreeRuleset.cs" t="Include" />
+                </e>
+              </e>
+              <e p="MeshTools" t="Include">
+                <e p="MeshBuilder.cs" t="Include" />
+                <e p="MeshHelper.cs" t="Include" />
+                <e p="MeshObject.cs" t="Include" />
+                <e p="VegetationContainerObject.cs" t="Include" />
+              </e>
             </e>
           </e>
         </e>
