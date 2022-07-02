@@ -14,16 +14,15 @@ public class VegetationContainerObject
     public VegetationContainerObject(GameObject parent,string name, string tag)
     {
         // creates the new game object
-        m_go = new GameObject();
-
-        // assigns all details and sets parent
-        m_go.name = name;
-        m_go.tag = tag;
-            
-        if (parent != null)
+        m_go = new GameObject
         {
-            m_parent = parent;
-            m_go.transform.SetParent(parent.transform);
-        }
+            // assigns all details and sets parent
+            name = name,
+            tag = tag
+        };
+
+        if (parent == null) return;
+        m_parent = parent;
+        m_go.transform.SetParent(parent.transform);
     }
 }

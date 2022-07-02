@@ -15,10 +15,6 @@ using Random = UnityEngine.Random;
 [ExecuteAlways]
 public class GrassGenerator : Generator
 {
-    // Collection of the spawned objects
-    private List<MeshObject> m_grassObjects = new List<MeshObject>();
-    private List<MeshObject> m_meshObjects = new List<MeshObject>();
-    
     /// <summary>
     /// Creates a scriptable object of the specified enum type and adds this object to the correct scriptable object
     /// container.
@@ -68,7 +64,7 @@ public class GrassGenerator : Generator
         
         m_testing = new List<ScriptableObject>();
         
-        ResetGrassChildren();
+        ResetChildren();
     }
     
     
@@ -79,7 +75,7 @@ public class GrassGenerator : Generator
     {
         Random.InitState(seed);
         
-        ResetGrassChildren();
+        ResetChildren();
      
         foreach (var scriptable in m_testing)
         {
@@ -109,7 +105,7 @@ public class GrassGenerator : Generator
         for (int i = 0; i < grassCardSo.count; i++)
         {
             // creates the mesh for this object
-            var cardObject = new MeshObject(grassCardSo.Object.go, grassCardSo.grassMaterial, 
+            var cardObject = new MeshObject(grassCardSo.containerObject.go, grassCardSo.grassMaterial, 
                 "Grass Card", "Vegetation");
             
             // random position
@@ -128,26 +124,12 @@ public class GrassGenerator : Generator
 
             cardObject.go.transform.localEulerAngles = currentEular;
             
-            var pos = grassCardSo.Object.go.transform.position;
+            var pos = grassCardSo.containerObject.go.transform.position;
             var randScale = UnityEngine.Random.Range(-grassCardSo.scaleVariation, grassCardSo.scaleVariation);
 
             // Create the actual mesh and apply it to our shared mesh.
             cardObject.MeshFilter.sharedMesh =
                 MeshHelper.BuildCard(pos, grassCardSo.width, grassCardSo.height, randScale);
-        }
-    }
-    
-    /// <summary>
-    /// Gets the current number of children attached to this object and permanently deletes them.
-    /// </summary>
-    public void ResetGrassChildren()
-    {
-        foreach (var child in transform.GetComponentsInChildren<Transform>())
-        {
-            if (child.gameObject.CompareTag($"Vegetation"))
-            {
-                DestroyImmediate(child.gameObject);
-            }
         }
     }
 }

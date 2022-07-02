@@ -6,11 +6,11 @@ using ECTool.Scripts.MeshTools;
 using UnityEngine;
 
 [Serializable]
-public class MeshGrassSO : VegetationSO
+public class MeshGrassSO : VegetationSo
 {
     MeshGrassSO()
     {
-        Name = "                Mesh                ";
+        name = "                Mesh                ";
     }
     
     public EGrassOptions Type { get; } = EGrassOptions.E_MESH;

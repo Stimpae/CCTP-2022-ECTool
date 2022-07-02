@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ECTool.Scripts.Scriptables;
 using ECTool.Scripts.EditorTools.Enumerations;
 using ECTool.Scripts.MeshTools;
 using ECTool.Scripts.Scriptables;
+using ECTool.Scripts.Scriptables.Vegetation.Tree;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Generator : MonoBehaviour
@@ -39,16 +42,16 @@ public class Generator : MonoBehaviour
             var scriptable = m_testing[index - 1];
             
             // Get this card type
-            var card = type as VegetationSO;
+            var card = type as VegetationSo;
             
             // Set this card type parent to the scriptable GameObject
-            if (scriptable is VegetationSO {} vegetationSo) card.Parent = vegetationSo.Object.go;
+            if (scriptable is VegetationSo {} vegetationSo) card.parent = vegetationSo.containerObject.go;
                     
             // Create a new container and then set the parent of the actual Game Object
-            containerObject = new VegetationContainerObject(card.Parent,"Container", "Container");
+            containerObject = new VegetationContainerObject(card.parent,"Container", "Container");
 
             // Then set the container object of this object to the previously created.
-            card.Object = containerObject;
+            card.containerObject = containerObject;
         }
         else
         {
@@ -56,10 +59,10 @@ public class Generator : MonoBehaviour
             containerObject = new VegetationContainerObject(gameObject, "Container", "Container");
             
             // Set the container and parent to null (this is used to check indentations in the custom inspector.
-            if (type is VegetationSO { } card)
+            if (type is VegetationSo { } card)
             {
-                card.Object = containerObject;
-                card.Parent = null;
+                card.containerObject = containerObject;
+                card.parent = null;
             }
         }
     }
@@ -77,16 +80,16 @@ public class Generator : MonoBehaviour
         GameObject objectGO = null;
         
         // Get the scriptable at this index game object.
-        if (m_testing[index] is VegetationSO { } objectSo)
+        if (m_testing[index] is VegetationSo { } objectSo)
         {
-            objectGO = objectSo.Object.go;
+            objectGO = objectSo.containerObject.go;
         }
         
         // loop through all objects and check if this object is any other objects parents
         // if it is then we save a reference to that objects index to remove later.
         for (int i = 0; i < m_testing.Count; i++)
         {
-            if (m_testing[i] is VegetationSO { } tempSo && tempSo.Parent == objectGO && tempSo.Parent != null)
+            if (m_testing[i] is VegetationSo { } tempSo && tempSo.parent == objectGO && tempSo.parent != null)
             {
                 CheckDestroyedObjectChildren(objectGO, tempIndexList);
             }
@@ -112,26 +115,95 @@ public class Generator : MonoBehaviour
         for (int i = 0; i < m_testing.Count; i++)
         {
             // gets this index scriptable
-            if (m_testing[i] is VegetationSO { } so)
+            if (m_testing[i] is VegetationSo { } so)
             {
                 // there is a match 
-                if (parent == so.Parent)
+                if (parent == so.parent)
                 {
                     list.Add(i);
                     
                     for (int j = i; j >= 0; j--)
                     {
-                        if (m_testing[i] is VegetationSO { } childSo)
+                        if (m_testing[i] is VegetationSo { } childSo)
                         {
-                            if(so.Object.go == childSo.Parent)
+                            if(so.containerObject.go == childSo.parent)
                             {
                                 break;
                             }
                         }
                     }
-                    CheckDestroyedObjectChildren(so.Object.go, list);
+                    CheckDestroyedObjectChildren(so.containerObject.go, list);
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// Gets the current number of children attached to this object and permanently deletes them.
+    /// </summary>
+    protected void ResetChildren()
+    {
+        foreach (var child in transform.GetComponentsInChildren<Transform>())
+        {
+            if (child.gameObject.CompareTag($"Vegetation"))
+            {
+                DestroyImmediate(child.gameObject);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Calculates the positions that children objects can parent // attach themselves to.
+    /// </summary>
+    /// <returns></returns>
+    protected List<PlacementNodes> CalculatePlacementNodes(List<PlacementNodes> parentNodes, float start, float end, int count)
+    {
+        // Creates new temporary lists for placements nodes (one for our final list
+        // and one to declare all the nodes available in range
+        List<PlacementNodes> tempNodes = new List<PlacementNodes>();
+        List<PlacementNodes> actualAvailableNodes = new List<PlacementNodes>();
+
+        // Dependent on the start and end locations only make a certain number of the 
+        // nodes available
+        foreach (var node in parentNodes)
+        {
+            // need to get the last height - 1?
+            if (node.Position.y >= start
+                && node.Position.y <= end)
+            {
+                actualAvailableNodes.Add(node);
+            }
+        }
+        
+        // work out the start and end nodes and find the distance between them
+        Vector3 startNode = actualAvailableNodes[0].Position;
+        Vector3 endNode = actualAvailableNodes[parentNodes.Count - 1].Position;
+        float distance = Vector3.Distance(startNode, endNode);
+        
+        // calculate the average distance to cover that amount
+        float averageDistance = distance / count;
+        
+        float startY = start;
+ 
+        // then in the loop get the closet vectors to that y position?
+        for (int i = 0; i < count; i++)
+        {
+            // sets the original branch position (not final)
+            Vector3 branchPosition = new Vector3(0, startY, 0);
+
+            // gets the first and second closet positions to our current y value position
+            PlacementNodes positionOne = actualAvailableNodes.OrderBy(o => Vector3.Distance(o.Position, branchPosition)).ToArray()[0];
+            PlacementNodes positionTwo = actualAvailableNodes.OrderBy(o => Vector3.Distance(o.Position, branchPosition)).ToArray()[1];
+
+            // the t is the value at the same level as our y -> need to somehow calculate this
+            Vector3 normalised = (branchPosition - positionOne.Position).normalized;
+            Vector3 newPosition = Vector3.Lerp(positionOne.Position, positionTwo.Position, normalised.y);
+
+            branchPosition = newPosition;
+            tempNodes.Add(new PlacementNodes(branchPosition, positionOne.Radius));
+            startY += averageDistance;
+        }
+
+        return tempNodes;
     }
 }

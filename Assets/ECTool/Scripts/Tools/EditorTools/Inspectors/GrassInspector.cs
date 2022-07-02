@@ -23,12 +23,6 @@ namespace ECTool.Scripts.EditorTools
         
         private SerializedProperty m_grassCardSO;
         
-        // Editor warnings 
-        private bool m_showWarnings = false;
-        private string m_warningText = "";
-        private float m_warningTime = 0;
-        private float m_depth = 0;
-        
         private void OnEnable()
         {
             m_ruleset = new GrassRuleset();
@@ -156,7 +150,21 @@ namespace ECTool.Scripts.EditorTools
             GUILayout.Space(5.0f);
             
             // Button for actually saving the selected object.
+            if (GUILayout.Button("Save as Mesh"))
+            {
+                // need to put our save function here-> need a save object we can
+                // create at the beginning of each thing and then combine it with this
+            }
+            
+            // Button for actually saving the selected object.
             if (GUILayout.Button("Save as Prefab"))
+            {
+                // need to put our save function here-> need a save object we can
+                // create at the beginning of each thing and then combine it with this
+            }
+            
+            // Button for actually saving the selected object.
+            if (GUILayout.Button("Save as Procedural Scriptable Object"))
             {
                 // need to put our save function here-> need a save object we can
                 // create at the beginning of each thing and then combine it with this
@@ -187,15 +195,15 @@ namespace ECTool.Scripts.EditorTools
                     ShowObject(i, property, list,0);
                 }
             }
-        }    
-        
-        void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) {
+        }
+
+        private void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) {
             
             // I am sure i can simplify this some how 
             name = element.objectReferenceValue switch
             {
-                MeshGrassSO meshGrassSo => meshGrassSo.Name,
-                GrassCardSO enemyObject => enemyObject.Name,
+                MeshGrassSO meshGrassSo => meshGrassSo.name,
+                GrassCardSO enemyObject => enemyObject.name,
                 _ => name
             };
             
@@ -235,19 +243,20 @@ namespace ECTool.Scripts.EditorTools
                 EditorGUILayout.Space(2);
 
                 var thisDepth = depth;
-
+                
+                // may need to check here to see if this list is bigger than our current scriptable object container
                 for (int i = 0; i < list.arraySize; i++)
                 {
                     SerializedProperty property = list.GetArrayElementAtIndex(i);
 
-                    if (element.objectReferenceValue is VegetationSO {} vegetationSo)
+                    if (element.objectReferenceValue is VegetationSo {} vegetationSo)
                     {
-                        if (vegetationSo.Object.go == m_ruleset.GetGameObjectFromProperty(property))
+                        if (vegetationSo.containerObject.go == m_ruleset.GetGameObjectFromProperty(property))
                         {
                             for (int j = i; j >= 0; j--)
                             {
                                 SerializedProperty prevProperty = list.GetArrayElementAtIndex(i);
-                                if (vegetationSo.Object.go == m_ruleset.GetGameObjectFromProperty(prevProperty))
+                                if (vegetationSo.containerObject.go == m_ruleset.GetGameObjectFromProperty(prevProperty))
                                 {
                                     break;
                                 }

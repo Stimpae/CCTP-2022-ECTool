@@ -21,6 +21,10 @@ namespace ECTool.Scripts.EditorTools
         // custom GUI skin
         public GUISkin m_skin;
         
+        // Editor warnings 
+        protected bool m_showWarnings = false;
+        protected string m_warningText = "";
+        
         /// <summary>
         /// Override the default inspector GUI and disable the script section of the inspector.
         /// </summary>

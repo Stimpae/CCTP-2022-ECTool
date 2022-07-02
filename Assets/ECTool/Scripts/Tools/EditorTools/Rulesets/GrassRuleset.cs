@@ -47,7 +47,7 @@ namespace ECTool.Scripts.EditorTools.Rulesets
         {
             return property.objectReferenceValue switch
             {
-                VegetationSO vegetationSo => vegetationSo.Parent,
+                VegetationSo vegetationSo => vegetationSo.parent,
                 _ => null
             };
         }

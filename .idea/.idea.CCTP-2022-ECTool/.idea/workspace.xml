@@ -20,39 +20,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f20b884-e12d-46e8-a2a0-49a3893a8391" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/contentModel.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/riderModule.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Shaders/VegetatioSwayShader.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Materials/Shaders/VegetatioSwayShader.shadergraph" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/ECardTypes.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/ECardTypes.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Rulesets.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Rulesets/GrassRuleset.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Rulesets/GrassRuleset.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshBuilder.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshBuilder.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshHelper.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshHelper.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshObject.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshObject.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/TerrainTools.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Settings/UniversalRP-HighQuality.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Settings/UniversalRP-HighQuality.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/SettingsData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/SettingsData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/BranchSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/BranchSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/LeavesSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/LeavesSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/TrunkSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Tree/TrunkSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/VegetationSO.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/VegetationSO.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/GrassRuleset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/GrassRuleset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/TreeRuleset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/TreeRuleset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/VegetationContainerObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/VegetationContainerObject.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Search.settings" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Search.settings" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,8 +65,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../../3rd Year/Cohort/CGD-2022/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/ETreeOptions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/ECTool/Editor/Helpers/CreateDefaultUnitySkin.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/ETreeOptions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -90,9 +91,23 @@
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/ETreeOptions.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" />
         <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/TreeRuleset.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/PlacementNodes.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/VegetationSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/BranchSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/TrunkSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/LeavesSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" />
       </list>
     </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="29tOrWFbJbWkLQgcwYWlDs9Z2HA" />
   <component name="ProjectViewState">
@@ -100,20 +115,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "rider.run.widget.enabled.cache": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Program Files\2021.1.21f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;D:\University Files\Dissertation\CCTP-2022-ECTool&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\University Files\Dissertation\CCTP-2022-ECTool" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
+      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
-        <set />
+        <list />
       </option>
       <method v="2" />
     </configuration>
@@ -121,8 +145,9 @@
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
+      <option name="projectPathOnTarget" />
       <option name="selectedOptions">
-        <set />
+        <list />
       </option>
       <method v="2" />
     </configuration>
@@ -138,13 +163,19 @@
       <workItem from="1653929117179" duration="15677000" />
       <workItem from="1654505887437" duration="30831000" />
       <workItem from="1654874950186" duration="35559000" />
-      <workItem from="1655197386899" duration="21548000" />
+      <workItem from="1655197386899" duration="21844000" />
+      <workItem from="1655306862943" duration="7023000" />
+      <workItem from="1655404733622" duration="4408000" />
+      <workItem from="1656353175455" duration="5757000" />
+      <workItem from="1656439270674" duration="6738000" />
+      <workItem from="1656762541094" duration="7392000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="Vcs.Log.Tabs.Properties">
@@ -157,36 +188,8 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="3643" y="448" key="RiderGenerateDialog" timestamp="1654532364450">
-      <screen x="1920" y="0" width="2560" height="1440" />
-    </state>
-    <state x="3643" y="448" key="RiderGenerateDialog/0.0.1536.834/1920.0.2560.1440@1920.0.2560.1440" timestamp="1653997873032" />
-    <state x="3643" y="448" key="RiderGenerateDialog/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654532364450" />
-    <state x="2702" y="365" key="SettingsEditor" timestamp="1655206649339">
-      <screen x="1920" y="0" width="2560" height="1440" />
-    </state>
-    <state x="2702" y="365" key="SettingsEditor/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1655206649339" />
-    <state x="92" y="92" width="1736" height="866" key="VCS.FileHistoryDialog" timestamp="1655118325263">
-      <screen x="0" y="0" width="1920" height="1050" />
-    </state>
-    <state x="92" y="92" width="1736" height="866" key="VCS.FileHistoryDialog/0.0.1920.1050/1920.0.2560.1440@0.0.1920.1050" timestamp="1655118325263" />
-    <state x="3403" y="0" width="1090" height="1428" key="dock-window-1" timestamp="1654007569149">
-      <screen x="1920" y="0" width="2560" height="1440" />
-    </state>
-    <state x="3403" y="0" width="1090" height="1428" key="dock-window-1/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1654007569149" />
-    <state x="2857" y="341" key="run.anything.popup" timestamp="1655135035996">
-      <screen x="1920" y="0" width="2560" height="1440" />
-    </state>
-    <state x="2857" y="341" key="run.anything.popup/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1655135035996" />
-    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup" timestamp="1655129399019">
-      <screen x="1920" y="0" width="2560" height="1440" />
-    </state>
-    <state x="3503" y="330" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050/1920.0.2560.1440@1920.0.2560.1440" timestamp="1655129399019" />
   </component>
 </project>
