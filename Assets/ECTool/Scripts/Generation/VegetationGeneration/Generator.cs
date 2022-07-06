@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +7,19 @@ using ECTool.Scripts.EditorTools.Enumerations;
 using ECTool.Scripts.MeshTools;
 using ECTool.Scripts.Scriptables;
 using ECTool.Scripts.Scriptables.Vegetation.Tree;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Generator : MonoBehaviour
 {
     // The seed to initialise the random generation
     public int seed = 1;
-    
+
     // Collection of the spawned scriptable objects (these should correspond with the objects created?_
-    [SerializeField, HideInInspector]
-    protected List<ScriptableObject>  m_testing = new List<ScriptableObject>();
+    [SerializeField, HideInInspector] protected List<ScriptableObject> m_testing = new List<ScriptableObject>();
 
     // feel like this can be in its own object as well
     [HideInInspector] public SettingsData settingsData;
@@ -33,22 +35,25 @@ public class Generator : MonoBehaviour
     {
         // need to get the parent somewhere here as well
         VegetationContainerObject containerObject;
-        
+
         // this can be put in a function in a parent class
         // Create the actual parent containers dependent on the targetted index
         if (index > 0)
         {
             // Get the scriptable of the parent (index before)
             var scriptable = m_testing[index - 1];
-            
+
             // Get this card type
             var card = type as VegetationSo;
-            
+
             // Set this card type parent to the scriptable GameObject
             if (scriptable is VegetationSo {} vegetationSo) card.parent = vegetationSo.containerObject.go;
-                    
+
             // Create a new container and then set the parent of the actual Game Object
-            containerObject = new VegetationContainerObject(card.parent,"Container", "Container");
+            containerObject = new VegetationContainerObject(card.parent, "Container", "Container");
+
+            // Set our parent scriptable to this.. bla bla
+            card.parentSo = (VegetationSo) scriptable;
 
             // Then set the container object of this object to the previously created.
             card.containerObject = containerObject;
@@ -57,7 +62,7 @@ public class Generator : MonoBehaviour
         {
             // Create a new container object and set the parent to whatever the parent is of this.
             containerObject = new VegetationContainerObject(gameObject, "Container", "Container");
-            
+
             // Set the container and parent to null (this is used to check indentations in the custom inspector.
             if (type is VegetationSo { } card)
             {
@@ -66,7 +71,7 @@ public class Generator : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -76,15 +81,15 @@ public class Generator : MonoBehaviour
     {
         // Temp list to hold the parent and all children.
         List<int> tempIndexList = new List<int>() {index};
-        
+
         GameObject objectGO = null;
-        
+
         // Get the scriptable at this index game object.
         if (m_testing[index] is VegetationSo { } objectSo)
         {
             objectGO = objectSo.containerObject.go;
         }
-        
+
         // loop through all objects and check if this object is any other objects parents
         // if it is then we save a reference to that objects index to remove later.
         for (int i = 0; i < m_testing.Count; i++)
@@ -94,13 +99,13 @@ public class Generator : MonoBehaviour
                 CheckDestroyedObjectChildren(objectGO, tempIndexList);
             }
         }
-        
+
         // Loops through all of the children and removes them from our scriptable list
         for (int i = tempIndexList.Count - 1; i >= 0; i--)
         {
             list.DeleteArrayElementAtIndex(tempIndexList[i]);
         }
-        
+
         // Destroys the parents (should destroy all children to
         DestroyImmediate(objectGO);
     }
@@ -121,23 +126,24 @@ public class Generator : MonoBehaviour
                 if (parent == so.parent)
                 {
                     list.Add(i);
-                    
+
                     for (int j = i; j >= 0; j--)
                     {
                         if (m_testing[i] is VegetationSo { } childSo)
                         {
-                            if(so.containerObject.go == childSo.parent)
+                            if (so.containerObject.go == childSo.parent)
                             {
                                 break;
                             }
                         }
                     }
+
                     CheckDestroyedObjectChildren(so.containerObject.go, list);
                 }
             }
         }
     }
-    
+
     /// <summary>
     /// Gets the current number of children attached to this object and permanently deletes them.
     /// </summary>
@@ -145,6 +151,7 @@ public class Generator : MonoBehaviour
     {
         foreach (var child in transform.GetComponentsInChildren<Transform>())
         {
+            // Deletes the meshes
             if (child.gameObject.CompareTag($"Vegetation"))
             {
                 DestroyImmediate(child.gameObject);
@@ -153,57 +160,153 @@ public class Generator : MonoBehaviour
     }
     
     /// <summary>
-    /// Calculates the positions that children objects can parent // attach themselves to.
+    /// Calculates the available nodes over the entire vegetation mesh, nodes are calculated using
+    /// segments which are generated as the mesh is constructed
     /// </summary>
+    /// <param name="objectData"> The scriptable that we are calculating the available nodes for</param>
+    /// <param name="density"> Determines how dense the amount of available nodes are between segments.
+    /// Higher numbers mean greater density and lower means less. the figure is multiplied by distance </param>
     /// <returns></returns>
-    protected List<PlacementNodes> CalculatePlacementNodes(List<PlacementNodes> parentNodes, float start, float end, int count)
+    protected List<PlacementNodes> CalculateAvailableNodes(VegetationSo objectData, float density, float deadZone)
     {
-        // Creates new temporary lists for placements nodes (one for our final list
-        // and one to declare all the nodes available in range
-        List<PlacementNodes> tempNodes = new List<PlacementNodes>();
+        // Creates new temporary lists for placements nodes
+        List<PlacementNodes> segmentNodes = objectData.segmentNodes;
         List<PlacementNodes> actualAvailableNodes = new List<PlacementNodes>();
 
-        // Dependent on the start and end locations only make a certain number of the 
-        // nodes available
-        foreach (var node in parentNodes)
-        {
-            // need to get the last height - 1?
-            if (node.Position.y >= start
-                && node.Position.y <= end)
-            {
-                actualAvailableNodes.Add(node);
-            }
-        }
-        
-        // work out the start and end nodes and find the distance between them
-        Vector3 startNode = actualAvailableNodes[0].Position;
-        Vector3 endNode = actualAvailableNodes[parentNodes.Count - 1].Position;
-        float distance = Vector3.Distance(startNode, endNode);
-        
-        // calculate the average distance to cover that amount
-        float averageDistance = distance / count;
-        
-        float startY = start;
- 
+        float startY = 0;
+
         // then in the loop get the closet vectors to that y position?
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < segmentNodes.Count; i++)
         {
-            // sets the original branch position (not final)
+            // if we are on the last node then break, we don't need to do anything further 
+            if (i == segmentNodes.Count - 1) break;
+            
+            // gets the first and second closet positions to our current y value position
+            PlacementNodes posThis = segmentNodes[i];
+            PlacementNodes posNext = segmentNodes[i + 1];
+            
+            // Calculate the distance and between each segments and the direction
+            float distance = Vector3.Distance(posThis.Position, posNext.Position);
+            
+            // Edge case that place 
+            float edgeDistance = Mathf.Abs(posThis.Position.y - posNext.Position.y);
+            if (edgeDistance >= deadZone) continue;
+            
+            int nodesPerSegment = (int) (distance * density);
+            float nodeSpacing = distance / nodesPerSegment;
+
+            // sets the original branch position (should also be at 0,0,0 world space)
             Vector3 branchPosition = new Vector3(0, startY, 0);
 
-            // gets the first and second closet positions to our current y value position
-            PlacementNodes positionOne = actualAvailableNodes.OrderBy(o => Vector3.Distance(o.Position, branchPosition)).ToArray()[0];
-            PlacementNodes positionTwo = actualAvailableNodes.OrderBy(o => Vector3.Distance(o.Position, branchPosition)).ToArray()[1];
+            for (int x = 0; x <= nodesPerSegment; x++)
+            {
+                Vector3 newPosition = Vector3.Lerp(posThis.Position, posNext.Position, startY);
+                branchPosition = newPosition;
 
-            // the t is the value at the same level as our y -> need to somehow calculate this
-            Vector3 normalised = (branchPosition - positionOne.Position).normalized;
-            Vector3 newPosition = Vector3.Lerp(positionOne.Position, positionTwo.Position, normalised.y);
-
-            branchPosition = newPosition;
-            tempNodes.Add(new PlacementNodes(branchPosition, positionOne.Radius));
-            startY += averageDistance;
+                actualAvailableNodes.Add(new PlacementNodes(branchPosition, posThis.Radius, posThis.RelatedObject));
+                startY = nodeSpacing * x;
+            }
         }
 
-        return tempNodes;
+        // start from the first index, getting the next position 
+        return actualAvailableNodes;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="parentObjectData"></param>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    protected List<PlacementNodes> CalculatePlacementNodes(VegetationSo parentObjectData, float start, float end,
+        int count, EPlacementType placementType)
+    {
+        // Creates new temporary lists for placements nodes
+        List<PlacementNodes> availableNodes = new List<PlacementNodes>();
+        List<PlacementNodes> actualPlacementNodes = new List<PlacementNodes>();
+
+        Dictionary<MeshObject, List<PlacementNodes>> tempObjects = new Dictionary<MeshObject, List<PlacementNodes>>();
+        
+        // Dependent on the start and end locations only make a certain number of the 
+        // nodes available
+        foreach (var node in parentObjectData.availableNodes)
+        {
+            // Inverse the node position from world space to local
+            Vector3 localPos = node.RelatedObject.go.transform.InverseTransformPoint(node.Position);
+            
+            if (localPos.y >= start
+                && localPos.y <= end)
+            {
+                // Only do if we are in range
+                // Construct our own dictionary of related objects && the nodes that correspond to them
+                MeshObject nodeObject = node.RelatedObject;
+                
+                if (tempObjects.ContainsKey((nodeObject)))
+                {
+                    // if we already have a reference to this object, then just add the node
+                    tempObjects[nodeObject].Add(node);
+                }
+                else
+                {
+                    // if we don't then we need to add 
+                    tempObjects.Add(nodeObject, new List<PlacementNodes>());
+                }
+                
+                availableNodes.Add(node);
+            }
+        }
+
+        switch (placementType)
+        {
+            case EPlacementType.RANDOM:
+                
+                for (int i = 0; i < count; i++)
+                {
+                    // Add random node to our final list.
+                    actualPlacementNodes.Add(ChooseRandomNode(availableNodes));
+                }
+                
+                break;
+            case EPlacementType.EVEN:
+
+                // once we're done just look through each object -> get the last and first node in the list to work out
+                // the distance, then decide how we many we can evenly distribute across that based on a density amount??
+                foreach (var tempObject in tempObjects)
+                {
+                    int nodeCount = tempObject.Value.Count;
+                    int tempCount = count;
+                    
+                    PlacementNodes firstNode = tempObject.Value[0];
+                    PlacementNodes lastNode = tempObject.Value[nodeCount - 1];
+
+                    float distance = Vector3.Distance(firstNode.Position, lastNode.Position);
+                    tempCount = count >= nodeCount ? nodeCount : count;
+
+                    // this might do for the moment, but we do need to evenly space out the nodes i think?
+                    for (int i = 0; i < tempCount; i++)
+                    {
+                        actualPlacementNodes.Add(tempObject.Value[i]);
+                    }
+                }
+                
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(placementType), placementType, null);
+        }
+        
+        return actualPlacementNodes;
+    }
+
+    private PlacementNodes ChooseRandomNode(List<PlacementNodes> availableNodes)
+    {
+        int maxNodes = availableNodes.Count;
+        int randomIndex = Random.Range(0, maxNodes);
+
+        PlacementNodes chosenNode = availableNodes[randomIndex];
+        availableNodes.RemoveAt(randomIndex);
+        
+        return chosenNode;
     }
 }

@@ -188,18 +188,25 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
         
         private void DrawObjectList(SerializedProperty list)
         {
-            for (int i = 0; i < list.arraySize; i++)
+            if (list.arraySize > 0)
             {
-                SerializedProperty property = list.GetArrayElementAtIndex(i);
-
-                if (m_ruleset.GetParentFromProperty(property) == null)
+                for (int i = 0; i < list.arraySize; i++)
                 {
-                    ShowObject(i, property, list,0);
+                    if (list.GetArrayElementAtIndex(i) != null)
+                    {
+                        SerializedProperty property = list.GetArrayElementAtIndex(i);
+                        if (m_ruleset.GetParentFromProperty(property) == null)
+                        {
+                            ShowObject(i, property, list,0);
+                        }
+                    }
                 }
             }
         }    
         
         void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) {
+            
+            if (element == null) return;
             
             // I am sure i can simplify this some how 
             name = element.objectReferenceValue switch
@@ -237,6 +244,9 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
                         m_objectTabSelected = index;
                     }
 
+                    // Just a hacky way for the root components to stop being deleted a causing a crash
+                    // Need a better way of handling this by checking children of components being deleted and clearing them first
+                    
                     if (GUILayout.Button("Delete", GUILayout.Height(23), GUILayout.Width(deleteWidth)))
                     {
                         m_treeGenerator.DestroyObject(index, list);
@@ -253,23 +263,23 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
             for (int i = 0; i < list.arraySize; i++)
             {
                 SerializedProperty property = list.GetArrayElementAtIndex(i);
-
+                
                 if (element.objectReferenceValue is VegetationSo {} vegetationSo)
-                {
-                    if (vegetationSo.containerObject.go == m_ruleset.GetParentFromProperty(property))
                     {
-                        for (int j = i; j >= 0; j--)
+                        if (vegetationSo.containerObject.go == m_ruleset.GetParentFromProperty(property))
                         {
-                            SerializedProperty prevProperty = list.GetArrayElementAtIndex(i);
-                            if (vegetationSo.containerObject.go == m_ruleset.GetParentFromProperty(prevProperty))
+                            for (int j = i; j >= 0; j--)
                             {
-                                break;
+                                SerializedProperty prevProperty = list.GetArrayElementAtIndex(i);
+                                if (vegetationSo.containerObject.go == m_ruleset.GetParentFromProperty(prevProperty))
+                                {
+                                    break;
+                                }
                             }
-                        }
 
-                        ShowObject(i, property, list, thisDepth + 34);
+                            ShowObject(i, property, list, thisDepth + 34);
+                        }
                     }
-                }
             }
         }
     }

@@ -20,7 +20,7 @@ namespace ECTool.Scripts.Scriptables.Vegetation.Tree
         public AnimationCurve shape = AnimationCurve.Linear(0.1f, 0.03f, 0.97f, 0.8f);
     
         [Header("Trunk Distortion")]
-        [Range(-180.0f, 180f)] public float bend = 15.0f;
+        [Range(1, 180f)] public float bend = 15.0f;
         [Range(0.0f, 90f)] public float twist = 44.0f;
         [Range(0.0f, 0.4f)] public float sinStrength = 0.3f;
         [Range(0.0f, 2.0f)] public float sinFrequency = 1f;

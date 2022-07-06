@@ -15,7 +15,7 @@ namespace ECTool.Scripts.EditorTools.Rulesets
                     return addedType == EGrassOptions.E_GRASSCARD || addedType == EGrassOptions.E_MESH;
                     break;
                 case EGrassOptions.E_MESH:
-                    return addedType == EGrassOptions.E_MESH;
+                    return false;
                 case EGrassOptions.E_GRASSCARD:
                     return addedType == EGrassOptions.E_MESH;
                 default:
@@ -37,8 +37,8 @@ namespace ECTool.Scripts.EditorTools.Rulesets
         {
             return property.objectReferenceValue switch
             {
-                MeshGrassSO meshGrassSo => EGrassOptions.E_MESH,
-                GrassCardSO enemyObject => EGrassOptions.E_GRASSCARD,
+                MeshGrassSO meshSo => EGrassOptions.E_MESH,
+                GrassCardSO grassCardSo => EGrassOptions.E_GRASSCARD,
                 _ => EGrassOptions.E_NONE
             };
         }

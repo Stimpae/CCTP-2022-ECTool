@@ -8,8 +8,8 @@ namespace ECTool.Scripts.Scriptables.Vegetation.Tree
         {
             name = "Branch";
         }
-        
-        [Header("Branch")] 
+
+        [Header("Branch")] public EPlacementType placementType = EPlacementType.RANDOM;
         public Material material;
         [Range(0, 30)] public int count = 0;
         [Range(0, 20)] public float start = 1;
@@ -26,7 +26,7 @@ namespace ECTool.Scripts.Scriptables.Vegetation.Tree
         public AnimationCurve shape = AnimationCurve.Linear(0.1f, 0.03f, 0.97f, 0.8f);
         
         [Header("Branch Distortion")]
-        [Range(-180f, 180f)] public float bend = 15.0f;
+        [Range(0, 180f)] public float bend = 15.0f;
         [Range(-0.4f, 0.4f)] public float sinStrength = 0.3f;
         [Range(-2.0f, 2.0f)] public float sinFrequency = 1f;
         [Range(0.0f, 100.0f)] public float randomness = 0.0f;
