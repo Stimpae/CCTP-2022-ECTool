@@ -7,6 +7,6 @@ namespace ECTool.Scripts.Scriptables
     {
         [Header("Save"), Space(5f)] 
         public string objectName = "ObjectName";
-        public string objectPath = "Assets/Exports/Prefabs";
+        public string objectPath = "Assets/Exports/Mesh";
     }
 }

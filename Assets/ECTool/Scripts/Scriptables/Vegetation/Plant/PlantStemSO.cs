@@ -11,12 +11,12 @@ public class PlantStemSO : VegetationSo
     
     [Header("Stem"),Space(5f)]
     public Material material;
-    [Range(4, 8)] public int segments = 12;
-    [Range(4, 8)] public int sides = 12;
+    [Range(4, 8)] public int segments = 4;
+    [Range(4, 8)] public int sides = 4;
     
     [Header("Stem Scale")]
-    [Range(0.1f, 1)] public float length = 6;
-    [Range(0.1f, 1f)] public float radius = 0.18f;
+    [Range(0.001f, 1f)] public float length = 0.5f;
+    [Range(0.001f, 0.1f)] public float radius = 0.005f;
     
     [Header("Stem Distortion")]
     [Range(1, 180f)] public float bend = 15.0f;

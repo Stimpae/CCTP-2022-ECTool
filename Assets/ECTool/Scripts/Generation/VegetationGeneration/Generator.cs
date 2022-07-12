@@ -3,26 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ECTool.Scripts.Scriptables;
-using ECTool.Scripts.EditorTools.Enumerations;
 using ECTool.Scripts.MeshTools;
-using ECTool.Scripts.Scriptables;
-using ECTool.Scripts.Scriptables.Vegetation.Tree;
-using Unity.VisualScripting;
+using ECTool.Scripts.Tools.MeshTools;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[ExecuteAlways]
 public class Generator : MonoBehaviour
 {
     // The seed to initialise the random generation
     public int seed = 1;
 
     // Collection of the spawned scriptable objects (these should correspond with the objects created?_
-    [SerializeField, HideInInspector] protected List<ScriptableObject> m_testing = new List<ScriptableObject>();
+    [SerializeField, HideInInspector] protected List<ScriptableObject> 
+        m_vegetationScriptables = new List<ScriptableObject>();
 
     // feel like this can be in its own object as well
     [HideInInspector] public SettingsData settingsData;
+    
+    // Materials
+    protected MeshRenderer meshRenderer;
+    protected MeshFilter meshFilter;
+    private List<Material> m_materials = new List<Material>();
+    
+    public void OnEnable()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+        meshFilter = GetComponent<MeshFilter>();
+        
+        // Creates a new instance of the settings data
+        settingsData = ScriptableObject.CreateInstance<SettingsData>();
+        
+        m_vegetationScriptables = new List<ScriptableObject>();
+        m_materials = new List<Material>();
+    }
 
     /// <summary>
     /// 
@@ -41,7 +56,7 @@ public class Generator : MonoBehaviour
         if (index > 0)
         {
             // Get the scriptable of the parent (index before)
-            var scriptable = m_testing[index - 1];
+            var scriptable = m_vegetationScriptables[index - 1];
 
             // Get this card type
             var card = type as VegetationSo;
@@ -85,16 +100,16 @@ public class Generator : MonoBehaviour
         GameObject objectGO = null;
 
         // Get the scriptable at this index game object.
-        if (m_testing[index] is VegetationSo { } objectSo)
+        if (m_vegetationScriptables[index] is VegetationSo { } objectSo)
         {
             objectGO = objectSo.containerObject.go;
         }
 
         // loop through all objects and check if this object is any other objects parents
         // if it is then we save a reference to that objects index to remove later.
-        for (int i = 0; i < m_testing.Count; i++)
+        for (int i = 0; i < m_vegetationScriptables.Count; i++)
         {
-            if (m_testing[i] is VegetationSo { } tempSo && tempSo.parent == objectGO && tempSo.parent != null)
+            if (m_vegetationScriptables[i] is VegetationSo { } tempSo && tempSo.parent == objectGO && tempSo.parent != null)
             {
                 CheckDestroyedObjectChildren(objectGO, tempIndexList);
             }
@@ -117,10 +132,10 @@ public class Generator : MonoBehaviour
     /// <param name="list"></param>
     public void CheckDestroyedObjectChildren(GameObject parent, List<int> list)
     {
-        for (int i = 0; i < m_testing.Count; i++)
+        for (int i = 0; i < m_vegetationScriptables.Count; i++)
         {
             // gets this index scriptable
-            if (m_testing[i] is VegetationSo { } so)
+            if (m_vegetationScriptables[i] is VegetationSo { } so)
             {
                 // there is a match 
                 if (parent == so.parent)
@@ -129,7 +144,7 @@ public class Generator : MonoBehaviour
 
                     for (int j = i; j >= 0; j--)
                     {
-                        if (m_testing[i] is VegetationSo { } childSo)
+                        if (m_vegetationScriptables[i] is VegetationSo { } childSo)
                         {
                             if (so.containerObject.go == childSo.parent)
                             {
@@ -172,12 +187,15 @@ public class Generator : MonoBehaviour
         // Creates new temporary lists for placements nodes
         List<PlacementNodes> segmentNodes = objectData.segmentNodes;
         List<PlacementNodes> actualAvailableNodes = new List<PlacementNodes>();
-
-        float startY = 0;
-
+        
+        
         // then in the loop get the closet vectors to that y position?
         for (int i = 0; i < segmentNodes.Count; i++)
         {
+            int nodesPerSegment = Mathf.FloorToInt(density);// 4 * 18 = 72 nodes per segment?
+            float distance = 1.0f / nodesPerSegment;
+            float lerpValue = 0;
+            
             // if we are on the last node then break, we don't need to do anything further 
             if (i == segmentNodes.Count - 1) break;
             
@@ -185,26 +203,19 @@ public class Generator : MonoBehaviour
             PlacementNodes posThis = segmentNodes[i];
             PlacementNodes posNext = segmentNodes[i + 1];
             
-            // Calculate the distance and between each segments and the direction
-            float distance = Vector3.Distance(posThis.Position, posNext.Position);
-            
             // Edge case that place 
             float edgeDistance = Mathf.Abs(posThis.Position.y - posNext.Position.y);
             if (edgeDistance >= deadZone) continue;
             
-            int nodesPerSegment = (int) (distance * density);
-            float nodeSpacing = distance / nodesPerSegment;
-
-            // sets the original branch position (should also be at 0,0,0 world space)
-            Vector3 branchPosition = new Vector3(0, startY, 0);
-
-            for (int x = 0; x <= nodesPerSegment; x++)
+            for (int x = 0; x < nodesPerSegment; x++)
             {
-                Vector3 newPosition = Vector3.Lerp(posThis.Position, posNext.Position, startY);
-                branchPosition = newPosition;
+                lerpValue += distance;
+                
+                Vector3 newPosition = Vector3.Lerp(posThis.Position, posNext.Position, lerpValue);
+                var data = newPosition;
+                actualAvailableNodes.Add(new PlacementNodes(data, posThis.Radius, posThis.RelatedObject));
 
-                actualAvailableNodes.Add(new PlacementNodes(branchPosition, posThis.Radius, posThis.RelatedObject));
-                startY = nodeSpacing * x;
+                
             }
         }
 
@@ -261,8 +272,10 @@ public class Generator : MonoBehaviour
         switch (placementType)
         {
             case EPlacementType.RANDOM:
+
+                int actualCount = count > availableNodes.Count ? availableNodes.Count : count;
                 
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < actualCount; i++)
                 {
                     // Add random node to our final list.
                     actualPlacementNodes.Add(ChooseRandomNode(availableNodes));
@@ -283,7 +296,9 @@ public class Generator : MonoBehaviour
 
                     float distance = Vector3.Distance(firstNode.Position, lastNode.Position);
                     tempCount = count >= nodeCount ? nodeCount : count;
-
+                    
+                    // need a better way of doing this so it evenly spreads across the distance.
+                    
                     // this might do for the moment, but we do need to evenly space out the nodes i think?
                     for (int i = 0; i < tempCount; i++)
                     {
@@ -308,5 +323,97 @@ public class Generator : MonoBehaviour
         availableNodes.RemoveAt(randomIndex);
         
         return chosenNode;
+    }
+    
+    /// <summary>
+    /// Combines all the created meshes into the one
+    /// </summary>
+    public void CompleteBuildingMesh()
+    {
+        // Outline new lists to contain the game objects that need to be combined and the instances to use
+        // alongside the combine mesh function    
+        List<GameObject> objectsToCombine = new List<GameObject>();
+        List<CombineInstance> instancesToCombine = new List<CombineInstance>();
+
+        // New mesh for the shared mesh
+        meshFilter.sharedMesh = new Mesh();
+        
+        // Loop through each of the children and grab all of the vegetation objects - these are our meshes
+        foreach (var child in transform.GetComponentsInChildren<Transform>())
+        {
+            // Deletes the meshes
+            if (child.gameObject.CompareTag($"Vegetation"))
+            {
+                objectsToCombine.Add(child.gameObject);
+            }
+        }
+
+        
+        // Loop through each game object and get the mesh and transform and add this to our instances list.
+        foreach (var vegetation in objectsToCombine)
+        {
+            if (!vegetation) continue;
+            CombineInstance instance = new CombineInstance();
+            instance.mesh = vegetation.GetComponent<MeshFilter>().sharedMesh;
+            instance.transform = vegetation.GetComponent<MeshFilter>().transform.localToWorldMatrix;
+            
+            instancesToCombine.Add(instance);
+        }
+        
+        Mesh sharedMesh;
+        
+        (sharedMesh = meshFilter.sharedMesh).CombineMeshes(instancesToCombine.ToArray(), false, true);
+
+        foreach (var child in transform.GetComponentsInChildren<Transform>())
+        {
+            // Deletes the meshes
+            if (child.gameObject.CompareTag("Vegetation"))
+            {
+                DestroyImmediate(child.gameObject);
+            }
+        }
+        
+        // This works, need to now figure out a way to handle the parenting without gameobjects..?
+        for (int i = 0; i < m_vegetationScriptables.Count; i++)
+        {
+            if (m_vegetationScriptables[i] is VegetationSo { } tempSo)
+            {
+                if (tempSo.containerObject.go != null || tempSo.containerObject != null)
+                {
+                    DestroyImmediate(tempSo.containerObject.go, true);
+                }
+            }
+        }
+    }
+
+
+    public void SaveObjectAsPrefab()
+    {
+        
+    }
+
+    public void SaveObjectAsProceduralScriptable()
+    {
+        
+    }
+    
+    /// <summary>
+    /// To be able to combine meshes properly we need to store all the necessary materials within a
+    /// parent mesh renderer, this functions gets the material from the mesh renderer, if its not already in
+    /// the mesh renderer it will add it and return.
+    /// </summary>
+    /// <param name="material"> The material that we want to get from the mesh renderer</param>
+    /// <returns></returns>
+    protected Material GetMaterialFromRenderer(Material material)
+    {
+        // m_materials keeps a local copy of our mesh renderer
+        if (!m_materials.Contains(material))
+        {
+            m_materials.Add(material);
+            meshRenderer.sharedMaterials = m_materials.ToArray();
+        }
+        
+        int indexOfMaterial = System.Array.IndexOf(meshRenderer.sharedMaterials, material);
+        return meshRenderer.sharedMaterials[indexOfMaterial];
     }
 }

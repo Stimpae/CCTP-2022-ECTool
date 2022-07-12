@@ -11,19 +11,19 @@ namespace ECTool.Scripts.EditorTools
     public class CustomInspector : Editor
     {
         // Define tab tags
-        protected string[] m_tabs = {"Create","Save"};
-        protected int m_tabSelected = 0;
+        protected string[] tabs = {"Create","Save"};
+        protected int tabSelected = 0;
         
         // list of the editors displaying
-        protected Editor m_settingEditor;
-        protected Editor m_detailsEditor;
+        protected Editor settingEditor;
+        protected Editor detailsEditor;
         
         // custom GUI skin
-        public GUISkin m_skin;
+        public GUISkin skin;
         
         // Editor warnings 
-        protected bool m_showWarnings = false;
-        protected string m_warningText = "";
+        protected bool showWarnings = false;
+        protected string warningText = "";
         
         /// <summary>
         /// Override the default inspector GUI and disable the script section of the inspector.
@@ -31,7 +31,7 @@ namespace ECTool.Scripts.EditorTools
         public override void OnInspectorGUI()
         {
             // set the system skin to default
-            GUI.skin = m_skin;
+            GUI.skin = skin;
 
             // Draw the inspector modified properties (this is for the default inspector settings)
             DrawPropertiesExcluding(serializedObject, "m_Script");
@@ -39,11 +39,11 @@ namespace ECTool.Scripts.EditorTools
             // Start of the GUI layout vertical box
             EditorGUILayout.BeginVertical();
         
-            m_tabSelected = GUILayout.Toolbar(m_tabSelected, m_tabs);
+            tabSelected = GUILayout.Toolbar(tabSelected, tabs);
         
             EditorGUILayout.EndVertical();
             
-            HandleTabs(m_tabs);
+            HandleTabs(tabs);
         }
         
         /// <summary>
@@ -53,9 +53,9 @@ namespace ECTool.Scripts.EditorTools
         /// <param name="tabs"> an array of all the available tabs for this editor </param>
         protected virtual void HandleTabs(string[] tabs)
         {
-            if (m_tabSelected >= 0)
+            if (tabSelected >= 0)
             {
-                switch (tabs[m_tabSelected])
+                switch (tabs[tabSelected])
                 {
                     case "Create":
                         CreationTab();

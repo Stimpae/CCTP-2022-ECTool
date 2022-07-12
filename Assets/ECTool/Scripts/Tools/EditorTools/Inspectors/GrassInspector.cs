@@ -37,14 +37,14 @@ namespace ECTool.Scripts.EditorTools
             
             // create the settings editor and update the object
             var settingData = serializedObject.FindProperty("settingsData");
-            CreateCachedEditor(settingData.objectReferenceValue, GetType(), ref m_settingEditor);
-            m_settingEditor.serializedObject.Update();
+            CreateCachedEditor(settingData.objectReferenceValue, GetType(), ref settingEditor);
+            settingEditor.serializedObject.Update();
             
             EditorGUILayout.Space();
 
-            if (m_showWarnings)
+            if (showWarnings)
             {
-                EditorGUILayout.HelpBox(m_warningText, MessageType.Warning);
+                EditorGUILayout.HelpBox(warningText, MessageType.Warning);
             }
         }
 
@@ -54,7 +54,7 @@ namespace ECTool.Scripts.EditorTools
         /// </summary>
         protected override void CreationTab()
         {
-            m_grassCardSO = serializedObject.FindProperty("m_testing");
+            m_grassCardSO = serializedObject.FindProperty("m_vegetationScriptables");
             
             // Creates a drop down menu and adds all available options to this, linking the creation
             // function with the appropriate enum value for the option selected
@@ -79,7 +79,7 @@ namespace ECTool.Scripts.EditorTools
                 GUILayout.BeginVertical("window");
                 
                var data = m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected);
-                CreateCachedEditor(data.objectReferenceValue, GetType(), ref m_detailsEditor);
+                CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
                 DrawFocusedObject();
                 
                 GUILayout.EndVertical();
@@ -117,7 +117,7 @@ namespace ECTool.Scripts.EditorTools
             // index before this if its actually valid?
             if (m_ruleset.IsValidParent(m_ruleset.GetEnumValueFromString(option), optionParent))
             {
-                m_showWarnings = false;
+                showWarnings = false;
                 
                 // Switches between string options and adds the appropriate scriptable to the selected class
                 switch (option)
@@ -136,16 +136,16 @@ namespace ECTool.Scripts.EditorTools
             }
             else
             {
-                m_showWarnings = true;
-                m_warningText = "You can not add this object type as child of this element.";
+                showWarnings = true;
+                warningText = "You can not add this object type as child of this element.";
             }
         }
         
         protected override void SaveTab()
         {
             // Draws the settings tab without the scriptable options
-            DrawPropertiesExcluding(m_settingEditor.serializedObject, "m_Script");
-            m_settingEditor.serializedObject.ApplyModifiedProperties();
+            DrawPropertiesExcluding(settingEditor.serializedObject, "m_Script");
+            settingEditor.serializedObject.ApplyModifiedProperties();
         
             GUILayout.Space(5.0f);
             
@@ -176,12 +176,12 @@ namespace ECTool.Scripts.EditorTools
         /// </summary>
         private void DrawFocusedObject()
         {
-            DrawPropertiesExcluding(m_detailsEditor.serializedObject, "m_Script");
+            DrawPropertiesExcluding(detailsEditor.serializedObject, "m_Script");
             if (GUI.changed)
             {
                 m_grassGenerator.RebuildGrassCards();
             }
-            m_detailsEditor.serializedObject.ApplyModifiedProperties();
+            detailsEditor.serializedObject.ApplyModifiedProperties();
         }
         
         private void DrawObjectList(SerializedProperty list)

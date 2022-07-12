@@ -11,12 +11,10 @@ using Random = UnityEngine.Random;
 namespace ECTool.Scripts.Generation.VegetationGeneration
 {
     [ExecuteAlways]
+    [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(MeshRenderer))]
     public class TreeGenerator : Generator
     {
-        public List<PlacementNodes> m_testPlacementNodes = new List<PlacementNodes>();
-        public List<PlacementNodes> m_testAvailableNodes = new List<PlacementNodes>();
-        public List<PlacementNodes> m_testSegmentNodes = new List<PlacementNodes>();
-        
         /// <summary>
         /// Creates a scriptable object of the specified enum type and adds this object to the correct scriptable object
         /// container.
@@ -36,26 +34,26 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                 case ETreeOptions.E_TRUNK:
                     if (index > 0)
                         // Insert this at a specific position in the List.
-                        m_testing.Insert(index, type as TrunkSO);
+                        m_vegetationScriptables.Insert(index, type as TrunkSO);
                     else
                         // adds at the end of the index
-                        m_testing.Add(type as TrunkSO);
+                        m_vegetationScriptables.Add(type as TrunkSO);
                     break;
                 case ETreeOptions.E_BRANCH:
                     if (index > 0)
                         // Insert this at a specific position in the List.
-                        m_testing.Insert(index, type as BranchSO);
+                        m_vegetationScriptables.Insert(index, type as BranchSO);
                     else
                         // adds at the end of the index
-                        m_testing.Add(type as BranchSO);
+                        m_vegetationScriptables.Add(type as BranchSO);
                     break;
                 case ETreeOptions.E_LEAVES:
                     if (index > 0)
                         // Insert this at a specific position in the List.
-                        m_testing.Insert(index, type as LeavesSO);
+                        m_vegetationScriptables.Insert(index, type as LeavesSO);
                     else
                         // adds at the end of the index
-                        m_testing.Add(type as LeavesSO);
+                        m_vegetationScriptables.Add(type as LeavesSO);
                     break;
                 case ETreeOptions.E_NONE:
                     break;
@@ -71,26 +69,20 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
             
             // Creates a new instance of the settings data
             settingsData = ScriptableObject.CreateInstance<SettingsData>();
-            
-            m_testPlacementNodes = new List<PlacementNodes>();
-            m_testAvailableNodes = new List<PlacementNodes>();
-            
+
             // Resets the scriptable
-            m_testing = new List<ScriptableObject>();
+            m_vegetationScriptables = new List<ScriptableObject>();
         }
 
         public void RebuildTree()
         {
             Random.InitState(seed);
-            
-            m_testPlacementNodes = new List<PlacementNodes>();
-            m_testAvailableNodes = new List<PlacementNodes>();
-            
+
             ResetChildren();
             
             // Loops through each of the scriptables in this list and
             // Starts constructing them
-            foreach (var scriptable in m_testing)
+            foreach (var scriptable in m_vegetationScriptables)
             {
                 switch (scriptable)
                 {
@@ -152,7 +144,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                 Quaternion rotation = Quaternion.Euler(0.0f, segmentTwist, zAngleDegrees);
 
                 // calculate the uv and the tiling (remove tiling later possibly)
-                float v = (float) i / trunk.segments * 10.0f;
+                float uvMap = (float) i / trunk.segments * 10.0f;
 
                 // the first two segments are dedicated to the root
                 if (i < 1)
@@ -178,7 +170,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
 
                 // create each segment and assigns this to our mesh builder
                 meshObject.MeshFilter.sharedMesh =
-                    MeshHelper.BuildRingSegment(meshBuilder, trunk.sides, centrePos, radius, v,
+                    MeshHelper.BuildRingSegment(meshBuilder, trunk.sides, centrePos, radius, uvMap,
                         i > 0, rotation, rootCurvature, trunk.rootFrequency);
 
                 // might not actually need the mesh object here?
@@ -325,7 +317,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                         meshObject.go.transform.localRotation = rotation * Quaternion.Euler(leaves.yaw, leaves.roll, leaves.pitch);
                         
                         meshObject.MeshFilter.sharedMesh =
-                            MeshHelper.BuildQuadCanopy(Vector3.zero, leaves.size, leaves.size, leaves.scale);
+                            MeshHelper.BuildQuadCanopy(Vector3.zero, leaves.size, leaves.size, leaves.scale, 0.15f);
                 }
             }
         }

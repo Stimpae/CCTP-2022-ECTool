@@ -17,7 +17,7 @@ namespace ECTool.Scripts.MeshTools
         /// <param name="height"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-         public static Mesh BuildCard(Vector3 offset, float width, float height,
+         public static Mesh BuildQuad(Vector3 offset, float width, float height,
             float scale)
         {
             // creates a new mesh builder (handles creating and putting together the mesh vert/tri/uvs
@@ -55,6 +55,39 @@ namespace ECTool.Scripts.MeshTools
             // creates and returns the mesh
             return meshBuilder.CreateMesh();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="meshBuilder"></param>
+        /// <param name="position"></param>
+        /// <param name="uvs"></param>
+        /// <param name="buildTriangles"></param>
+        /// <param name="verticesPerRow"></param>
+        /// <param name="vector3"></param>
+        /// <param name="segmentCount"></param>
+        /// <returns></returns>
+        public static Mesh BuildQuadGrid(MeshBuilder meshBuilder, Vector3 position, Vector2 uvs, bool buildTriangles,
+            int verticesPerRow, Vector3 normal)
+        {
+            meshBuilder.Vertices.Add(position);
+            meshBuilder.UVs.Add(uvs);
+
+            if (buildTriangles)
+            {
+                int baseIndex = meshBuilder.Vertices.Count - 1;
+
+                int index0 = baseIndex;
+                int index1 = baseIndex - 1;
+                int index2 = baseIndex - verticesPerRow;
+                int index3 = baseIndex - verticesPerRow - 1;
+
+                meshBuilder.AddTriangle(index0, index2, index1);
+                meshBuilder.AddTriangle(index2, index3, index1);
+            }
+            
+            return meshBuilder.CreateMesh();
+        }
          
         /// <summary>
         /// Builds a quad canopy mesh with a single point in the centre, mostly used for leaf billboard but can be used
@@ -66,7 +99,7 @@ namespace ECTool.Scripts.MeshTools
         /// <param name="scale"> Determines the scale of the overall mesh </param>
         /// <returns></returns>
         public static Mesh BuildQuadCanopy(Vector3 offset, float width, float height,
-            float scale)
+            float scale, float canopyDip)
         {
             // creates a new mesh builder (handles creating and putting together the mesh vert/tri/uvs
             MeshBuilder meshBuilder = new MeshBuilder();
@@ -82,7 +115,7 @@ namespace ECTool.Scripts.MeshTools
             meshBuilder.Normals.Add(Vector3.up);
 
             // adds the centre vert (for the canopy)
-            meshBuilder.Vertices.Add(new Vector3(height / 2, -0.15f, width / 2) + offset);
+            meshBuilder.Vertices.Add(new Vector3(height / 2, canopyDip, width / 2) + offset);
             meshBuilder.UVs.Add(new Vector2(0.5f, 0.5f));
             meshBuilder.Normals.Add(Vector3.up);
     
@@ -116,7 +149,7 @@ namespace ECTool.Scripts.MeshTools
         /// <param name="segmentCount"> The number of segments in this mesh, typically the number of vertices in the radius</param>
         /// <param name="centre"> The centre position of the mesh </param>
         /// <param name="radius"> The radius of the mesh </param>
-        /// <param name="v"> ?? </param>
+        /// <param name="v"> controls the v axis for the UV mapping </param>
         /// <param name="buildTriangles"> The option to build the triangles, used to skip building triangles for the first and
         /// the last segments </param>
         /// <param name="rotation"> The rotation of the mesh </param>
@@ -128,10 +161,10 @@ namespace ECTool.Scripts.MeshTools
             // Calculates the number of steps to determine the rotation angle for bending
             float angleStep = 360.0f / (segmentCount);
             
-            // Calcualtes the number of steps to determine the angle/position for sin calculations to the mesh
+            // Calculates the number of steps to determine the angle/position for sin calculations to the mesh
             float dAngleStep = 360.0f * frequency/ (segmentCount);
         
-            // Loops each segment
+            // Loops each rotation segment in the ring 
             for (int i = 0; i < segmentCount + 1; i++)
             {
                 float angle = i * angleStep;
@@ -153,22 +186,21 @@ namespace ECTool.Scripts.MeshTools
                 meshBuilder.UVs.Add(new Vector2((float) i / segmentCount, v));
 
                 // if we should build the triangles than do so
-                if (i > 0 && buildTriangles)
-                {
-                    int baseIndex = meshBuilder.Vertices.Count - 1;
+                if (i <= 0 || !buildTriangles) continue;
                 
-                    int vertsPerRow = segmentCount + 1;
+                int baseIndex = meshBuilder.Vertices.Count - 1;
+                int vertsPerRow = segmentCount + 1;
 
-                    int index0 = baseIndex;
-                    int index1 = baseIndex - 1;
-                    int index2 = baseIndex - vertsPerRow;
-                    int index3 = baseIndex - vertsPerRow - 1;
+                int index0 = baseIndex;
+                int index1 = baseIndex - 1;
+                int index2 = baseIndex - vertsPerRow;
+                int index3 = baseIndex - vertsPerRow - 1;
 
-                    meshBuilder.AddTriangle(index0, index2, index1);
-                    meshBuilder.AddTriangle(index2, index3, index1);
-                }
+                meshBuilder.AddTriangle(index0, index2, index1);
+                meshBuilder.AddTriangle(index2, index3, index1);
             }
             return meshBuilder.CreateMesh();
         }
     }
+    
 }

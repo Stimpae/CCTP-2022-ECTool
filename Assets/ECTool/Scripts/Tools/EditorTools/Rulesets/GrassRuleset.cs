@@ -13,7 +13,6 @@ namespace ECTool.Scripts.EditorTools.Rulesets
             {
                 case EGrassOptions.E_NONE:
                     return addedType == EGrassOptions.E_GRASSCARD || addedType == EGrassOptions.E_MESH;
-                    break;
                 case EGrassOptions.E_MESH:
                     return false;
                 case EGrassOptions.E_GRASSCARD:

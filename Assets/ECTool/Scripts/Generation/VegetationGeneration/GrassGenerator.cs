@@ -13,6 +13,8 @@ using Random = UnityEngine.Random;
 /// Handles holding all of the data and mesh objects relating to constructing a grass plane object.
 /// </summary>
 [ExecuteAlways]
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class GrassGenerator : Generator
 {
     /// <summary>
@@ -34,20 +36,20 @@ public class GrassGenerator : Generator
 
                 if (index > 0)
                     // Inset this at a specific position in the List.
-                    m_testing.Insert(index, type as GrassCardSO);
+                    m_vegetationScriptables.Insert(index, type as GrassCardSO);
                 else
                     // adds at the end of the index
-                    m_testing.Add(type as GrassCardSO);
+                    m_vegetationScriptables.Add(type as GrassCardSO);
                 
                 break;
             case EGrassOptions.E_MESH:
                 
                 if (index > 0)
                     // Insert this at a specific position in the List.
-                    m_testing.Insert(index, type as MeshGrassSO);
+                    m_vegetationScriptables.Insert(index, type as MeshGrassSO);
                 else
                     // adds at the end of the index
-                    m_testing.Add(type as MeshGrassSO);
+                    m_vegetationScriptables.Add(type as MeshGrassSO);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
@@ -62,7 +64,7 @@ public class GrassGenerator : Generator
         // Creates a new instance of the settings data
         settingsData = ScriptableObject.CreateInstance<SettingsData>();
         
-        m_testing = new List<ScriptableObject>();
+        m_vegetationScriptables = new List<ScriptableObject>();
         
         ResetChildren();
     }
@@ -77,7 +79,7 @@ public class GrassGenerator : Generator
         
         ResetChildren();
      
-        foreach (var scriptable in m_testing)
+        foreach (var scriptable in m_vegetationScriptables)
         {
             switch (scriptable)
             {
@@ -97,7 +99,7 @@ public class GrassGenerator : Generator
 
     private void BuildMeshGrassScriptable(MeshGrassSO meshGrassSo)
     {
-        
+        // needs to function the same as the grass scriptable but uses meshes instead..
     }
 
     private void BuildCardGrassScriptable(GrassCardSO grassCardSo)
@@ -129,7 +131,7 @@ public class GrassGenerator : Generator
 
             // Create the actual mesh and apply it to our shared mesh.
             cardObject.MeshFilter.sharedMesh =
-                MeshHelper.BuildCard(pos, grassCardSo.width, grassCardSo.height, randScale);
+                MeshHelper.BuildQuad(pos, grassCardSo.width, grassCardSo.height, randScale);
         }
     }
 }
