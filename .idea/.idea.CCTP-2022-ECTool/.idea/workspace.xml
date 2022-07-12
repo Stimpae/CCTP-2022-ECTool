@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4f20b884-e12d-46e8-a2a0-49a3893a8391" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CCTP-2022-ECTool/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Grass_Mat.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Grass_Mat.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_AlbedoA.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_AlbedoA.tga.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_MAODS.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_MAODS.tga.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_Normal.tga" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Green_Grass_Normal.tga.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/M_DefaultBlank.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/M_DefaultBlank.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/PngItem_2005919.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/PngItem_2005919.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Rush_Mat.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/Rush_Mat.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/grass-png-4754.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/grass-png-4754.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/kisspng-texture-mapping-drawing-lawn-tall-grass-texture-alpha-5ab1d0d27d3617.9249521415216027705129.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/kisspng-texture-mapping-drawing-lawn-tall-grass-texture-alpha-5ab1d0d27d3617.9249521415216027705129.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/pngkey.com-grass-png-texture-2067805.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Defaults/pngkey.com-grass-png-texture-2067805.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/M_Bark_04.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/M_Bark_04.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04_n.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04_n.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04_s.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Bark/Textures/bark04_s.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/M_FirLeaves_01.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/M_FirLeaves_01.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch_n.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch_n.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch_s.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir branch_s.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf_n.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf_n.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf_s.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Materials/Tree/Leaves/Textures/fir leaf_s.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scenes/VegetationScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/PlantGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/PlantGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantHeadSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantHeadSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantHeadSO.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantHeadSO.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafRingSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafRingSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafRingSO.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafRingSO.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafSO.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantLeafSO.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantStemSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantStemSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantStemSO.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Plant/PlantStemSO.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/SettingsData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/SettingsData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/VegetationSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/VegetationSO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/PlantInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/PlantInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/PlantInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/PlantInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/GrassRuleset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/GrassRuleset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/MeshHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/MeshHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/VegetationContainerObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/MeshTools/VegetationContainerObject.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../../3rd Year/Cohort/CGD-2022/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Editor/Helpers/CreateDefaultUnitySkin.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/ETreeOptions.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/SettingsData.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshBuilder.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/CustomGrassCardSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Editor/Helpers/CreateDefaultUnitySkin.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/CustomEditors/CustomSimpleListEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/ECardTypes.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Enumerations/EGrassOptions.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshObject.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/VegetationContainerObject.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/Rulesets/GrassRuleset.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/VegetationSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/Generator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/EditorTools/GrassInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/MeshTools/MeshHelper.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/VegetationGeneration/GrassGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/MeshGrassSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Grass/GrassCardSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/ETreeOptions.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/CustomInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/GrassInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Inspectors/TreeInspector.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/GrassGenerator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Rulesets/TreeRuleset.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/BranchSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/TrunkSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/VegetationSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/PlacementNodes.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Scriptables/Vegetation/Tree/LeavesSO.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/EPlacementType.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Tools/EditorTools/Enumerations/EPlantOptions.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/Generator.cs" />
+        <option value="$PROJECT_DIR$/Assets/ECTool/Scripts/Generation/VegetationGeneration/TreeGenerator.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="29tOrWFbJbWkLQgcwYWlDs9Z2HA" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;rider.run.widget.enabled.cache&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Program Files\2021.1.21f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;D:\University Files\Dissertation\CCTP-2022-ECTool&quot; -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\University Files\Dissertation\CCTP-2022-ECTool" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4f20b884-e12d-46e8-a2a0-49a3893a8391" name="Default Changelist" comment="" />
+      <created>1653929113990</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653929113990</updated>
+      <workItem from="1653929117179" duration="15677000" />
+      <workItem from="1654505887437" duration="30831000" />
+      <workItem from="1654874950186" duration="35559000" />
+      <workItem from="1655197386899" duration="21844000" />
+      <workItem from="1655306862943" duration="7023000" />
+      <workItem from="1655404733622" duration="4408000" />
+      <workItem from="1656353175455" duration="5757000" />
+      <workItem from="1656439270674" duration="6738000" />
+      <workItem from="1656762541094" duration="7392000" />
+      <workItem from="1656955302068" duration="16716000" />
+      <workItem from="1657041828955" duration="17412000" />
+      <workItem from="1657123751431" duration="3909000" />
+      <workItem from="1657127807028" duration="4000" />
+      <workItem from="1657134513152" duration="7281000" />
+      <workItem from="1657188240915" duration="6939000" />
+      <workItem from="1657290826448" duration="15944000" />
+      <workItem from="1657452219412" duration="51362000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
