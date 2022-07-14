@@ -118,10 +118,8 @@ public class PlantGenerator : Generator
         // placement nodes are the actual node positions that we are going to place objects
         stem.placementNodes = new List<PlacementNodes>();
         
-        Material material = GetMaterialFromRenderer(stem.material);
-        
         // creates a new mesh object (game object, mesh, mesh filter, mesh renderer)
-        MeshObject meshObject = new MeshObject(stem.containerObject.go, material, "Stem", "Vegetation");
+        MeshObject meshObject = new MeshObject(stem.containerObject.go, stem.material, "Stem", "Vegetation");
         MeshBuilder meshBuilder = new MeshBuilder();
         
         meshObject.go.transform.Rotate(stem.yaw, stem.roll, stem.pitch);
@@ -180,10 +178,8 @@ public class PlantGenerator : Generator
             // Loop through each node position and create leaf mesh
             foreach (var node in leaf.placementNodes)
             {
-                Material material = GetMaterialFromRenderer(leaf.material);
-                
                 // Construct the mesh object
-                MeshObject meshObject = new MeshObject(leaf.containerObject.go, material, "Leaf", "Vegetation");
+                MeshObject meshObject = new MeshObject(leaf.containerObject.go, leaf.material, "Leaf", "Vegetation");
                 
                 // Set the position to our nodes position
                 meshObject.go.transform.position = node.Position;
@@ -219,11 +215,10 @@ public class PlantGenerator : Generator
             // Loop through each node position and create leaf mesh
             for (int i = 0; i < leafRing.count; i++)
             {
-                Material material = GetMaterialFromRenderer(leafRing.material);
-                
+
                 // Construct the mesh object
                 MeshObject meshObject = new MeshObject(leafRing.containerObject.go, 
-                    material, "Leaf", "Vegetation");
+                    leafRing.material, "Leaf", "Vegetation");
                 
                 // Rotate the actual object to get the correct pitch
                 float yAngle = 360.0f * i / leafRing.count;
@@ -259,11 +254,10 @@ public class PlantGenerator : Generator
             headPosition = head.parentSo.availableNodes[count - 1].Position;
         }
         
-        Material material = GetMaterialFromRenderer(head.material);
         
         // Construct the mesh object
         MeshObject meshObject = new MeshObject(head.containerObject.go, 
-            material, "Head", "Vegetation");
+            head.material, "Head", "Vegetation");
 
         meshObject.go.transform.position = headPosition;
         

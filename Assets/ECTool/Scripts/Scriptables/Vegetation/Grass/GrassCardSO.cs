@@ -13,21 +13,26 @@ public class GrassCardSO: VegetationSo
         name = "Grass";
     }
     
-    public EGrassOptions Type { get; } = EGrassOptions.E_GRASSCARD;
+    public ECardTypes cardType = ECardTypes.SINGLE;
     
-    [Header("Defaults")]
-    [Range(1, 30)] public int count = 1;
+    [Header("Grass")]
     public Material grassMaterial;
-    public ECardTypes cardType = ECardTypes.E_CARD;
-    
-    [Header("Position")]
-    [Range(0, 1.0f)] public float positionVariation = 0;
-    
-    [Header("Scale")]
+    [Range(1, 30)] public int count = 1;
     [Range(0.1f, 10)] public float height = 1;
     [Range(0.1f, 10)] public float width = 1;
-    [Range(0, 0.25f)] public float scaleVariation = 0;
+    [Range(1, 6)] public int widthSegments = 1;
+    [Range(1, 6)] public int heightSegments = 1;
+    [Range(0.001f, 1f)] public float radius = 0.005f;
     
+    [Header("Grass Distortion")]
+    [Range(1, 180f)] public float bend = 15.0f;
+    
+    [Header("Grass Position")]
+    [Range(0, 1.0f)] public float positionVariation = 0;
+    
+    [Header("Grass Scale")]
+    [Range(0, 1f)] public float scaleVariation = 0;
+
     [Header("Rotation")]
     [Range(-180, 180)] public float rotationVariationYaw = 0;
     [Range(-40, 40)] public float rotationVariationPitch= 0;

@@ -79,10 +79,13 @@ namespace ECTool.Scripts.EditorTools
                 GUILayout.BeginVertical("window");
                 
                var data = m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected);
-                CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
-                DrawFocusedObject();
-                
-                GUILayout.EndVertical();
+               if (m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected) != null)
+               {
+                   CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
+                   DrawFocusedObject();
+               }
+               
+               GUILayout.EndVertical();
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -141,36 +144,6 @@ namespace ECTool.Scripts.EditorTools
             }
         }
         
-        protected override void SaveTab()
-        {
-            // Draws the settings tab without the scriptable options
-            DrawPropertiesExcluding(settingEditor.serializedObject, "m_Script");
-            settingEditor.serializedObject.ApplyModifiedProperties();
-        
-            GUILayout.Space(5.0f);
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Mesh"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Prefab"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Procedural Scriptable Object"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -188,12 +161,16 @@ namespace ECTool.Scripts.EditorTools
         {
             for (int i = 0; i < list.arraySize; i++)
             {
+                
+                
                 SerializedProperty property = list.GetArrayElementAtIndex(i);
 
                 if (m_ruleset.GetGameObjectFromProperty(property) == null)
                 {
                     ShowObject(i, property, list,0);
                 }
+                
+                
             }
         }
 

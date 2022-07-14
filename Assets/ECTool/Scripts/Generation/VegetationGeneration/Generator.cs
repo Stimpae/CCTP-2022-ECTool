@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ECTool.Scripts.Scriptables;
 using ECTool.Scripts.MeshTools;
+using ECTool.Scripts.Scriptables.Enviroment;
 using ECTool.Scripts.Tools.MeshTools;
 using UnityEditor;
 using UnityEngine;
@@ -25,8 +26,7 @@ public class Generator : MonoBehaviour
     // Materials
     protected MeshRenderer meshRenderer;
     protected MeshFilter meshFilter;
-    private List<Material> m_materials = new List<Material>();
-    
+
     public void OnEnable()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -36,7 +36,6 @@ public class Generator : MonoBehaviour
         settingsData = ScriptableObject.CreateInstance<SettingsData>();
         
         m_vegetationScriptables = new List<ScriptableObject>();
-        m_materials = new List<Material>();
     }
 
     /// <summary>
@@ -118,7 +117,7 @@ public class Generator : MonoBehaviour
         // Loops through all of the children and removes them from our scriptable list
         for (int i = tempIndexList.Count - 1; i >= 0; i--)
         {
-            list.DeleteArrayElementAtIndex(tempIndexList[i]);
+            m_vegetationScriptables.RemoveAt(tempIndexList[i]);
         }
 
         // Destroys the parents (should destroy all children to
@@ -291,6 +290,7 @@ public class Generator : MonoBehaviour
                     int nodeCount = tempObject.Value.Count;
                     int tempCount = count;
                     
+                    // error on line below the amount needs to not be negartive and less then size of the collection?
                     PlacementNodes firstNode = tempObject.Value[0];
                     PlacementNodes lastNode = tempObject.Value[nodeCount - 1];
 
@@ -329,91 +329,134 @@ public class Generator : MonoBehaviour
     /// Combines all the created meshes into the one
     /// </summary>
     public void CompleteBuildingMesh()
-    {
-        // Outline new lists to contain the game objects that need to be combined and the instances to use
-        // alongside the combine mesh function    
-        List<GameObject> objectsToCombine = new List<GameObject>();
-        List<CombineInstance> instancesToCombine = new List<CombineInstance>();
-
-        // New mesh for the shared mesh
+    { 
+        // Need to rewrite this to use lists etc and can probably be handled better
         meshFilter.sharedMesh = new Mesh();
         
-        // Loop through each of the children and grab all of the vegetation objects - these are our meshes
-        foreach (var child in transform.GetComponentsInChildren<Transform>())
-        {
-            // Deletes the meshes
-            if (child.gameObject.CompareTag($"Vegetation"))
-            {
-                objectsToCombine.Add(child.gameObject);
-            }
-        }
-
+        ArrayList materials = new ArrayList();
+        ArrayList combineInstanceArrays = new ArrayList();
+        MeshFilter[] meshFilters = gameObject.GetComponentsInChildren<MeshFilter>();
         
-        // Loop through each game object and get the mesh and transform and add this to our instances list.
-        foreach (var vegetation in objectsToCombine)
-        {
-            if (!vegetation) continue;
-            CombineInstance instance = new CombineInstance();
-            instance.mesh = vegetation.GetComponent<MeshFilter>().sharedMesh;
-            instance.transform = vegetation.GetComponent<MeshFilter>().transform.localToWorldMatrix;
-            
-            instancesToCombine.Add(instance);
-        }
-        
-        Mesh sharedMesh;
-        
-        (sharedMesh = meshFilter.sharedMesh).CombineMeshes(instancesToCombine.ToArray(), false, true);
-
-        foreach (var child in transform.GetComponentsInChildren<Transform>())
-        {
-            // Deletes the meshes
-            if (child.gameObject.CompareTag("Vegetation"))
-            {
-                DestroyImmediate(child.gameObject);
-            }
-        }
-        
-        // This works, need to now figure out a way to handle the parenting without gameobjects..?
-        for (int i = 0; i < m_vegetationScriptables.Count; i++)
-        {
-            if (m_vegetationScriptables[i] is VegetationSo { } tempSo)
-            {
-                if (tempSo.containerObject.go != null || tempSo.containerObject != null)
-                {
-                    DestroyImmediate(tempSo.containerObject.go, true);
-                }
-            }
-        }
+         foreach (MeshFilter filter in meshFilters)
+         {
+             MeshRenderer component = filter.GetComponent<MeshRenderer>();
+             
+             if (!component ||
+                 !filter.sharedMesh ||
+                 component.sharedMaterials.Length != filter.sharedMesh.subMeshCount)
+             {
+                 continue;
+             }
+             
+             
+             for (int s = 0; s < filter.sharedMesh.subMeshCount; s++)
+             {
+                 int materialArrayIndex = Contains(materials, component.sharedMaterials[s].name);
+                 if (materialArrayIndex == -1)
+                 {
+                     materials.Add(component.sharedMaterials[s]);
+                     materialArrayIndex = materials.Count - 1;
+                 }
+                 combineInstanceArrays.Add(new ArrayList());
+ 
+                 CombineInstance combineInstance = new CombineInstance();
+                 combineInstance.transform = component.transform.localToWorldMatrix;
+                 combineInstance.subMeshIndex = s;
+                 combineInstance.mesh = filter.sharedMesh;
+                 (combineInstanceArrays[materialArrayIndex] as ArrayList)?.Add(combineInstance);
+             }
+         }
+         
+         // Combine by material index into per-material meshes
+         // also, Create CombineInstance array for next step
+         Mesh[] meshes = new Mesh[materials.Count];
+         CombineInstance[] combineInstances = new CombineInstance[materials.Count];
+ 
+         for (int m = 0; m < materials.Count; m++)
+         {
+             CombineInstance[] combineInstanceArray = (combineInstanceArrays[m] as ArrayList)?
+                 .ToArray(typeof(CombineInstance)) as CombineInstance[];
+             meshes[m] = new Mesh();
+             meshes[m].CombineMeshes(combineInstanceArray, true, true);
+ 
+             combineInstances[m] = new CombineInstance();
+             combineInstances[m].mesh = meshes[m];
+             combineInstances[m].subMeshIndex = 0;
+         }
+ 
+         // Combine into one
+         meshFilter.sharedMesh = new Mesh();
+         meshFilter.sharedMesh.CombineMeshes(combineInstances, false, false);
+ 
+         // Destroy other meshes
+         foreach (Mesh oldMesh in meshes)
+         {
+             oldMesh.Clear();
+             DestroyImmediate(oldMesh);
+         }
+ 
+         // Assign materials
+         Material[] materialsArray = materials.ToArray(typeof(Material)) as Material[];
+         meshRenderer.materials = materialsArray;
+ 
+         ResetChildren();
     }
-
-
+    
+    private int Contains(ArrayList searchList, string searchName)
+    {
+        for (int i = 0; i < searchList.Count; i++)
+        {
+            if (((Material)searchList[i]).name == searchName)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     public void SaveObjectAsPrefab()
     {
+        // this is the combine mesh, now take this, create a new game object
+        // attach it to this and add the required components then save it
+        GameObject tempGo = new GameObject();
+        tempGo.transform.SetParent(transform);
+
+        MeshFilter tempMeshFilter = tempGo.AddComponent<MeshFilter>();
+        MeshRenderer tempMeshRenderer = tempGo.AddComponent<MeshRenderer>();
         
+        tempMeshRenderer.sharedMaterials = meshRenderer.sharedMaterials;
+        tempMeshFilter.sharedMesh = meshFilter.sharedMesh;
+        tempGo.name = settingsData.objectName;
+        
+        AssetDatabase.CreateAsset(tempMeshFilter.sharedMesh, settingsData.objectPath + "/" + tempGo.name + ".asset");
+        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.objectPath + "/" + tempGo.name + ".prefab");
+        AssetDatabase.SaveAssets();
+        
+        DestroyImmediate(tempGo);
     }
 
     public void SaveObjectAsProceduralScriptable()
     {
+        GameObject tempGo = new GameObject();
+        tempGo.transform.SetParent(transform);
+
+        MeshFilter tempMeshFilter = tempGo.AddComponent<MeshFilter>();
+        MeshRenderer tempMeshRenderer = tempGo.AddComponent<MeshRenderer>();
         
-    }
-    
-    /// <summary>
-    /// To be able to combine meshes properly we need to store all the necessary materials within a
-    /// parent mesh renderer, this functions gets the material from the mesh renderer, if its not already in
-    /// the mesh renderer it will add it and return.
-    /// </summary>
-    /// <param name="material"> The material that we want to get from the mesh renderer</param>
-    /// <returns></returns>
-    protected Material GetMaterialFromRenderer(Material material)
-    {
-        // m_materials keeps a local copy of our mesh renderer
-        if (!m_materials.Contains(material))
-        {
-            m_materials.Add(material);
-            meshRenderer.sharedMaterials = m_materials.ToArray();
-        }
+        tempMeshRenderer.sharedMaterials = meshRenderer.sharedMaterials;
+        tempMeshFilter.sharedMesh = meshFilter.sharedMesh;
+        tempGo.name = settingsData.objectName;
         
-        int indexOfMaterial = System.Array.IndexOf(meshRenderer.sharedMaterials, material);
-        return meshRenderer.sharedMaterials[indexOfMaterial];
+        AssetDatabase.CreateAsset(tempMeshFilter.sharedMesh, settingsData.objectPath + "/" + tempGo.name + ".asset");
+        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.objectPath + "/" + tempGo.name + ".prefab");
+        AssetDatabase.SaveAssets();
+        
+        ProceduralMeshSO asset = ScriptableObject.CreateInstance<ProceduralMeshSO>();
+        asset.meshObject = (GameObject)Resources.Load(settingsData.objectPath + "/" + tempGo.name);
+        
+        AssetDatabase.CreateAsset(asset, settingsData.objectPath + "/" + tempGo.name + ".asset");
+        AssetDatabase.SaveAssets();
+        
+        DestroyImmediate(tempGo);
     }
 }

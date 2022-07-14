@@ -13,20 +13,18 @@ public class MeshGrassSO : VegetationSo
         name = "                Mesh                ";
     }
     
-    public EGrassOptions Type { get; } = EGrassOptions.E_MESH;
-    
-    [Header("Defaults")]
-    [Range(1, 30)] public int count = 1;
-    public Material material;
-    public Mesh mesh;
-    
-    [Header("Position")]
+    [Header("Mesh")]
+    public GameObject mesh;
+    [Range(0, 30)] public int count = 0;
+
+    [Header("Mesh Transforms"), Space(5.0f)]
+    [Header("Mesh Positions")]
     [Range(0,0.5f)] public float positionVariation = 1;
     
-    [Header("Scale")]
-    [Range(0, 10)] public float scaleVariation = 1;
+    [Header("Mesh Scale")]
+    [Range(0, 1)] public float scaleVariation = 1;
     
-    [Header("Rotation")]
-    [Range(0, 10)] public float rotationVariation = 1;
+    [Header("Mesh Rotation")]
+    [Range(-180, 180)] public float rotationVariationYaw = 0;
 }
 

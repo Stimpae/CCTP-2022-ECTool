@@ -143,36 +143,6 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
             }
         }
         
-        protected override void SaveTab()
-        {
-            // Draws the settings tab without the scriptable options
-            DrawPropertiesExcluding(settingEditor.serializedObject, "m_Script");
-            settingEditor.serializedObject.ApplyModifiedProperties();
-        
-            GUILayout.Space(5.0f);
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Mesh"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Prefab"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Procedural Scriptable Object"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -204,6 +174,7 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
             }
         }    
         
+        // Can move this to the custom inspector
         void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) {
             
             if (element == null) return;

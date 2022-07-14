@@ -79,8 +79,32 @@ namespace ECTool.Scripts.EditorTools
         /// Holds all of the GUI elements for the custom inspector that are related to saving the mesh as
         /// either a prefab or as a standard unity mesh.
         /// </summary>
-        protected virtual void SaveTab()
+        private void SaveTab()
         {
+            // Draws the settings tab without the scriptable options
+            DrawPropertiesExcluding(settingEditor.serializedObject, "m_Script");
+            settingEditor.serializedObject.ApplyModifiedProperties();
+        
+            GUILayout.Space(5.0f);
+            
+            // Button for actually saving the selected object.
+            if (GUILayout.Button("Save as Prefab"))
+            {
+                // find the serialized object data within our targeted object
+                Generator generator = (Generator) target;
+                if(!generator) return;
+                
+                generator.SaveObjectAsPrefab();
+            }
+            
+            // Button for actually saving the selected object.
+            if (GUILayout.Button("Save as Procedural Mesh Object"))
+            {
+                Generator generator = (Generator) target;
+                if(!generator) return;
+                
+                generator.SaveObjectAsProceduralScriptable();
+            }
         }
     }
 }

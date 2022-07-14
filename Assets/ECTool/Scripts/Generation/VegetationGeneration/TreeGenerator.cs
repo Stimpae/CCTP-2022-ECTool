@@ -61,27 +61,13 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                     throw new ArgumentOutOfRangeException(nameof(option), option, null);
             }
         }
-
-        public void OnEnable()
-        {
-            // Deletes all of the children
-            ResetChildren();
-            
-            // Creates a new instance of the settings data
-            settingsData = ScriptableObject.CreateInstance<SettingsData>();
-
-            // Resets the scriptable
-            m_vegetationScriptables = new List<ScriptableObject>();
-        }
-
+        
         public void RebuildTree()
         {
             Random.InitState(seed);
-
-            ResetChildren();
             
             // Loops through each of the scriptables in this list and
-            // Starts constructing them
+            // starts constructing them
             foreach (var scriptable in m_vegetationScriptables)
             {
                 switch (scriptable)
@@ -97,6 +83,8 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                         break;
                 }
             }
+            
+            CompleteBuildingMesh();
         }
 
         private void BuildTrunkScriptable(TrunkSO trunk)

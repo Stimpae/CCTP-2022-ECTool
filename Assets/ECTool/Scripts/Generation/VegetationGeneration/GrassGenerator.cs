@@ -56,19 +56,6 @@ public class GrassGenerator : Generator
         }
     }
     
-    /// <summary>
-    /// When this object is enabled the settings and cards/objects are all rebuilt.
-    /// </summary>
-    public void OnEnable()
-    {
-        // Creates a new instance of the settings data
-        settingsData = ScriptableObject.CreateInstance<SettingsData>();
-        
-        m_vegetationScriptables = new List<ScriptableObject>();
-        
-        ResetChildren();
-    }
-    
     
     /// <summary>
     /// Handles reinitialising the random generation resetting all of the child grass cards attached to this object. 
@@ -77,17 +64,16 @@ public class GrassGenerator : Generator
     {
         Random.InitState(seed);
         
-        ResetChildren();
-     
         foreach (var scriptable in m_vegetationScriptables)
         {
             switch (scriptable)
             {
                 case MeshGrassSO meshGrassSo:
                     
-                    // Wait until we actually have grass cards for this to work..
-                    
+                    // Build the meshes
+                    BuildMeshGrassScriptable(meshGrassSo);
                     break;
+                
                 case GrassCardSO grassCardSo:
                     
                     // Build the grass cards for this scriptable
@@ -95,11 +81,38 @@ public class GrassGenerator : Generator
                     break;
             }
         }
+        
+        CompleteBuildingMesh();
     }
 
     private void BuildMeshGrassScriptable(MeshGrassSO meshGrassSo)
     {
-        // needs to function the same as the grass scriptable but uses meshes instead..
+        if (meshGrassSo.mesh == null) return;
+        
+        for (int i = 0; i < meshGrassSo.count; i++)
+        {
+            // creates the mesh for this object
+            var tempObject = Instantiate(meshGrassSo.mesh, meshGrassSo.containerObject.go.transform);
+            tempObject.tag = "Vegetation";
+
+            // random position
+            float newX = Random.Range(-meshGrassSo.positionVariation, meshGrassSo.positionVariation);
+            float newZ = Random.Range(-meshGrassSo.positionVariation, meshGrassSo.positionVariation);
+            Vector3 newPosition = new Vector3(newX, 0, newZ);
+            tempObject.transform.position = newPosition;
+            
+            // Work out the random rotation of each card
+            float randomYaw = Random.Range(-meshGrassSo.rotationVariationYaw, meshGrassSo.rotationVariationYaw);
+
+            var currentEular = tempObject.transform.localEulerAngles;
+            currentEular.y = randomYaw;
+
+            tempObject.transform.localEulerAngles = currentEular;
+            
+            var pos = meshGrassSo.containerObject.go.transform.position;
+            var randScale = UnityEngine.Random.Range(-meshGrassSo.scaleVariation, meshGrassSo.scaleVariation);
+        }
+
     }
 
     private void BuildCardGrassScriptable(GrassCardSO grassCardSo)

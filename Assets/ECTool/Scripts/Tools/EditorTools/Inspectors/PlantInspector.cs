@@ -65,7 +65,8 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
                 menu.ShowAsContext();
             }
             
-            // Loop through the current list and display the each card
+            EditorGUILayout.Space();
+            
             DrawObjectList(m_scriptablesContainer);
 
             EditorGUILayout.Space();
@@ -75,9 +76,12 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
             {
                 GUILayout.BeginVertical("window");
                 
-                var data = m_scriptablesContainer.GetArrayElementAtIndex(m_objectTabSelected);
-                CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
-                DrawFocusedObject();
+                if (m_scriptablesContainer.GetArrayElementAtIndex(m_objectTabSelected) != null)
+                {
+                    var data = m_scriptablesContainer.GetArrayElementAtIndex(m_objectTabSelected);
+                    CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
+                    DrawFocusedObject();
+                }
                 
                 GUILayout.EndVertical();
             }
@@ -148,29 +152,6 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
             }
         }
         
-        protected override void SaveTab()
-        {
-            // Draws the settings tab without the scriptable options
-            DrawPropertiesExcluding(settingEditor.serializedObject, "m_Script");
-            settingEditor.serializedObject.ApplyModifiedProperties();
-        
-            GUILayout.Space(5.0f);
-            
-            // Button for actually saving the selected object. 7
-            if (GUILayout.Button("Save as Prefab"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-            
-            // Button for actually saving the selected object.
-            if (GUILayout.Button("Save as Procedural Scriptable Object"))
-            {
-                // need to put our save function here-> need a save object we can
-                // create at the beginning of each thing and then combine it with this
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -186,26 +167,20 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
         
         private void DrawObjectList(SerializedProperty list)
         {
-            if (list.arraySize > 0)
+            if (list.arraySize < 0) return;
+            for (int i = 0; i < list.arraySize; i++)
             {
-                for (int i = 0; i < list.arraySize; i++)
+                SerializedProperty property = list.GetArrayElementAtIndex(i);
+                
+                if (m_ruleset.GetParentFromProperty(property) == null && property != null)
                 {
-                    if (list.GetArrayElementAtIndex(i) != null)
-                    {
-                        SerializedProperty property = list.GetArrayElementAtIndex(i);
-                        if (m_ruleset.GetParentFromProperty(property) == null)
-                        {
-                            ShowObject(i, property, list,0);
-                        }
-                    }
+                    ShowObject(i, property, list,0);
                 }
             }
-        }    
-        
-        void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) {
-            
-            if (element == null) return;
-            
+        }
+
+        private void ShowObject(int index, SerializedProperty element, SerializedProperty list, float depth) 
+        {
             // I am sure i can simplify this some how 
             name = element.objectReferenceValue switch
             {
@@ -242,26 +217,24 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
                         // select the appropriate index of the list
                         m_objectTabSelected = index;
                     }
-
-                    // Just a hacky way for the root components to stop being deleted a causing a crash
-                    // Need a better way of handling this by checking children of components being deleted and clearing them first
-                    
                     if (GUILayout.Button("Delete", GUILayout.Height(23), GUILayout.Width(deleteWidth)))
                     {
+                        m_objectTabSelected = -1;
                         m_plantGenerator.DestroyObject(index, list);
                     }
                 }
-                
             
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(2);
 
             var thisDepth = depth;
-                
+            
             // may need to check here to see if this list is bigger than our current scriptable object container
             for (int i = 0; i < list.arraySize; i++)
             {
                 SerializedProperty property = list.GetArrayElementAtIndex(i);
+
+                if (element.serializedObject == null) return;
                 
                 if (element.objectReferenceValue is VegetationSo {} vegetationSo)
                 {
@@ -281,6 +254,7 @@ namespace ECTool.Scripts.Tools.EditorTools.Inspectors
                         ShowObject(i, property, list, thisDepth + 34);
                     }
                 }
+                
             }
         }
     }
