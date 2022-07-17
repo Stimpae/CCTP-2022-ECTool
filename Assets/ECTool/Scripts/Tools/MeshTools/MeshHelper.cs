@@ -110,7 +110,7 @@ namespace ECTool.Scripts.MeshTools
             meshBuilder.Normals.Add(Vector3.up);
 
             // adds the top left vert
-            meshBuilder.Vertices.Add(new Vector3(0.0f + scale, 0.0f, width - scale) + offset);
+            meshBuilder.Vertices.Add(new Vector3(0.0f, 0.0f, width) + offset);
             meshBuilder.UVs.Add(new Vector2(0.0f, 1.0f));
             meshBuilder.Normals.Add(Vector3.up);
 
@@ -120,7 +120,7 @@ namespace ECTool.Scripts.MeshTools
             meshBuilder.Normals.Add(Vector3.up);
     
             // adds the bottom right vert
-            meshBuilder.Vertices.Add(new Vector3(height - scale, 0.0f, 0.0f + scale) + offset);
+            meshBuilder.Vertices.Add(new Vector3(height, 0.0f, 0.0f) + offset);
             meshBuilder.UVs.Add(new Vector2(1.0f, 0.0f));
             meshBuilder.Normals.Add(Vector3.up);
 

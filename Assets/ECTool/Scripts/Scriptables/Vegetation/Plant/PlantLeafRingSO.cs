@@ -25,5 +25,6 @@ public class PlantLeafRingSO : VegetationSo
     [Header("Leaf Ring Rotation")]
     [Range(-180, 0)] public float pitch = -60;
     [Range(-40, 40)] public float pitchVariation = 0;
+    [Range(-180, 0)] public float yaw = 0;
     [Range(-40, 40)] public float yawVariation = 0;
 }

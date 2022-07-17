@@ -172,7 +172,7 @@ public class PlantGenerator : Generator
             if (leaf.parent != null && leaf.parentSo)
             {
                 leaf.placementNodes =
-                    CalculatePlacementNodes(leaf.parentSo, leaf.start, leaf.end, leaf.count, leaf.placementType);
+                    CalculatePlacementNodes(leaf.parentSo, leaf.start, leaf.end, leaf.count);
             }
 
             // Loop through each node position and create leaf mesh
@@ -215,7 +215,6 @@ public class PlantGenerator : Generator
             // Loop through each node position and create leaf mesh
             for (int i = 0; i < leafRing.count; i++)
             {
-
                 // Construct the mesh object
                 MeshObject meshObject = new MeshObject(leafRing.containerObject.go, 
                     leafRing.material, "Leaf", "Vegetation");
@@ -228,7 +227,7 @@ public class PlantGenerator : Generator
                 float randPitch = Random.Range(-leafRing.pitchVariation, leafRing.pitchVariation);
                 float randYaw = Random.Range(-leafRing.yawVariation, leafRing.yawVariation);
 
-                meshObject.go.transform.Rotate(randPitch + leafRing.pitch, yAngle + randYaw, 0);
+                meshObject.go.transform.Rotate(randPitch + leafRing.pitch, yAngle + randYaw + leafRing.yaw, 0);
                 meshObject.go.transform.position = position;
  
                 // Builds the leaf segment (just a quad with bottom pivot)
@@ -253,7 +252,6 @@ public class PlantGenerator : Generator
             int count = head.parentSo.availableNodes.Count;
             headPosition = head.parentSo.availableNodes[count - 1].Position;
         }
-        
         
         // Construct the mesh object
         MeshObject meshObject = new MeshObject(head.containerObject.go, 

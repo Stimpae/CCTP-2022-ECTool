@@ -8,6 +8,7 @@ using ECTool.Scripts.Scriptables.Enviroment;
 using ECTool.Scripts.Tools.MeshTools;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using Random = UnityEngine.Random;
 
 [ExecuteAlways]
@@ -31,11 +32,11 @@ public class Generator : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
         meshFilter = GetComponent<MeshFilter>();
+
+        m_vegetationScriptables = new List<ScriptableObject>();
         
         // Creates a new instance of the settings data
         settingsData = ScriptableObject.CreateInstance<SettingsData>();
-        
-        m_vegetationScriptables = new List<ScriptableObject>();
     }
 
     /// <summary>
@@ -187,11 +188,10 @@ public class Generator : MonoBehaviour
         List<PlacementNodes> segmentNodes = objectData.segmentNodes;
         List<PlacementNodes> actualAvailableNodes = new List<PlacementNodes>();
         
-        
         // then in the loop get the closet vectors to that y position?
         for (int i = 0; i < segmentNodes.Count; i++)
         {
-            int nodesPerSegment = Mathf.FloorToInt(density);// 4 * 18 = 72 nodes per segment?
+            int nodesPerSegment = Mathf.FloorToInt(density);
             float distance = 1.0f / nodesPerSegment;
             float lerpValue = 0;
             
@@ -202,7 +202,7 @@ public class Generator : MonoBehaviour
             PlacementNodes posThis = segmentNodes[i];
             PlacementNodes posNext = segmentNodes[i + 1];
             
-            // Edge case that place 
+            // Edge case that place available nodes between multiple objects?
             float edgeDistance = Mathf.Abs(posThis.Position.y - posNext.Position.y);
             if (edgeDistance >= deadZone) continue;
             
@@ -213,8 +213,6 @@ public class Generator : MonoBehaviour
                 Vector3 newPosition = Vector3.Lerp(posThis.Position, posNext.Position, lerpValue);
                 var data = newPosition;
                 actualAvailableNodes.Add(new PlacementNodes(data, posThis.Radius, posThis.RelatedObject));
-
-                
             }
         }
 
@@ -231,98 +229,62 @@ public class Generator : MonoBehaviour
     /// <param name="count"></param>
     /// <returns></returns>
     protected List<PlacementNodes> CalculatePlacementNodes(VegetationSo parentObjectData, float start, float end,
-        int count, EPlacementType placementType)
+        int count)
     {
         // Creates new temporary lists for placements nodes
         List<PlacementNodes> availableNodes = new List<PlacementNodes>();
         List<PlacementNodes> actualPlacementNodes = new List<PlacementNodes>();
 
         Dictionary<MeshObject, List<PlacementNodes>> tempObjects = new Dictionary<MeshObject, List<PlacementNodes>>();
-        
+
         // Dependent on the start and end locations only make a certain number of the 
         // nodes available
         foreach (var node in parentObjectData.availableNodes)
         {
             // Inverse the node position from world space to local
             Vector3 localPos = node.RelatedObject.go.transform.InverseTransformPoint(node.Position);
+
+            if (!(localPos.y >= start) || !(localPos.y <= end)) continue;
             
-            if (localPos.y >= start
-                && localPos.y <= end)
+            // Only do if we are in range
+            // Construct our own dictionary of related objects && the nodes that correspond to them
+            MeshObject nodeObject = node.RelatedObject;
+
+            if (tempObjects.ContainsKey((nodeObject)))
             {
-                // Only do if we are in range
-                // Construct our own dictionary of related objects && the nodes that correspond to them
-                MeshObject nodeObject = node.RelatedObject;
-                
-                if (tempObjects.ContainsKey((nodeObject)))
-                {
-                    // if we already have a reference to this object, then just add the node
-                    tempObjects[nodeObject].Add(node);
-                }
-                else
-                {
-                    // if we don't then we need to add 
-                    tempObjects.Add(nodeObject, new List<PlacementNodes>());
-                }
-                
-                availableNodes.Add(node);
+                // if we already have a reference to this object, then just add the node
+                tempObjects[nodeObject].Add(node);
+            }
+            else
+            {
+                // if we don't then we need to add 
+                tempObjects.Add(nodeObject, new List<PlacementNodes>());
+            }
+
+            availableNodes.Add(node);
+        }
+        
+        // once we're done just look through each object -> get the last and first node in the list to work out
+        // the distance, then decide how we many we can evenly distribute across that based on the count
+        foreach (var tempObject in tempObjects)
+        {
+            // the amount of available nodes on this object
+            int nodeCount = tempObject.Value.Count; 
+            
+            // the count we want to distribute across the object
+            int tempCount = count >= nodeCount ? nodeCount : count;
+            
+            // How many nodes to increment based on the current node count and our tempCount
+            int nodeIncrementCount = nodeCount / tempCount;
+            
+            // loop through the amount of nodes that we need to distribute 
+            for (int i = 0; i < tempCount; i++)
+            {
+                actualPlacementNodes.Add(tempObject.Value[i * nodeIncrementCount]);
             }
         }
 
-        switch (placementType)
-        {
-            case EPlacementType.RANDOM:
-
-                int actualCount = count > availableNodes.Count ? availableNodes.Count : count;
-                
-                for (int i = 0; i < actualCount; i++)
-                {
-                    // Add random node to our final list.
-                    actualPlacementNodes.Add(ChooseRandomNode(availableNodes));
-                }
-                
-                break;
-            case EPlacementType.EVEN:
-
-                // once we're done just look through each object -> get the last and first node in the list to work out
-                // the distance, then decide how we many we can evenly distribute across that based on a density amount??
-                foreach (var tempObject in tempObjects)
-                {
-                    int nodeCount = tempObject.Value.Count;
-                    int tempCount = count;
-                    
-                    // error on line below the amount needs to not be negartive and less then size of the collection?
-                    PlacementNodes firstNode = tempObject.Value[0];
-                    PlacementNodes lastNode = tempObject.Value[nodeCount - 1];
-
-                    float distance = Vector3.Distance(firstNode.Position, lastNode.Position);
-                    tempCount = count >= nodeCount ? nodeCount : count;
-                    
-                    // need a better way of doing this so it evenly spreads across the distance.
-                    
-                    // this might do for the moment, but we do need to evenly space out the nodes i think?
-                    for (int i = 0; i < tempCount; i++)
-                    {
-                        actualPlacementNodes.Add(tempObject.Value[i]);
-                    }
-                }
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(placementType), placementType, null);
-        }
-        
         return actualPlacementNodes;
-    }
-
-    private PlacementNodes ChooseRandomNode(List<PlacementNodes> availableNodes)
-    {
-        int maxNodes = availableNodes.Count;
-        int randomIndex = Random.Range(0, maxNodes);
-
-        PlacementNodes chosenNode = availableNodes[randomIndex];
-        availableNodes.RemoveAt(randomIndex);
-        
-        return chosenNode;
     }
     
     /// <summary>
@@ -347,7 +309,6 @@ public class Generator : MonoBehaviour
              {
                  continue;
              }
-             
              
              for (int s = 0; s < filter.sharedMesh.subMeshCount; s++)
              {
@@ -423,13 +384,22 @@ public class Generator : MonoBehaviour
 
         MeshFilter tempMeshFilter = tempGo.AddComponent<MeshFilter>();
         MeshRenderer tempMeshRenderer = tempGo.AddComponent<MeshRenderer>();
+        LODGroup lodGroup = tempGo.AddComponent<LODGroup>();
         
+        LOD lod = default;
+        Renderer[] renderers = { tempMeshRenderer };
+        lod.renderers = renderers;
+        lod.screenRelativeTransitionHeight = 0.1f;
+
+        LOD[] lods = { lod };
+        lodGroup.SetLODs(lods);
+
         tempMeshRenderer.sharedMaterials = meshRenderer.sharedMaterials;
         tempMeshFilter.sharedMesh = meshFilter.sharedMesh;
         tempGo.name = settingsData.objectName;
         
-        AssetDatabase.CreateAsset(tempMeshFilter.sharedMesh, settingsData.objectPath + "/" + tempGo.name + ".asset");
-        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.objectPath + "/" + tempGo.name + ".prefab");
+        AssetDatabase.CreateAsset(tempMeshFilter.sharedMesh, settingsData.prefabPath + "/" + tempGo.name + ".asset");
+        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.prefabPath + "/" + tempGo.name + ".prefab");
         AssetDatabase.SaveAssets();
         
         DestroyImmediate(tempGo);
@@ -442,19 +412,27 @@ public class Generator : MonoBehaviour
 
         MeshFilter tempMeshFilter = tempGo.AddComponent<MeshFilter>();
         MeshRenderer tempMeshRenderer = tempGo.AddComponent<MeshRenderer>();
-        
+        LODGroup lodGroup = tempGo.AddComponent<LODGroup>();
+
+        LOD lod = default;
+        Renderer[] renderers = { tempMeshRenderer };
+        lod.renderers = renderers;
+
+        LOD[] lods = { lod };
+        lodGroup.SetLODs(lods);
+
         tempMeshRenderer.sharedMaterials = meshRenderer.sharedMaterials;
         tempMeshFilter.sharedMesh = meshFilter.sharedMesh;
         tempGo.name = settingsData.objectName;
         
-        AssetDatabase.CreateAsset(tempMeshFilter.sharedMesh, settingsData.objectPath + "/" + tempGo.name + ".asset");
-        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.objectPath + "/" + tempGo.name + ".prefab");
+        AssetDatabase.CreateAsset(meshFilter.sharedMesh, settingsData.proceduralObjectPath + "/" + tempGo.name + ".asset");
+        PrefabUtility.SaveAsPrefabAsset(tempGo, settingsData.proceduralObjectPath + "/" + tempGo.name + ".prefab");
         AssetDatabase.SaveAssets();
         
         ProceduralMeshSO asset = ScriptableObject.CreateInstance<ProceduralMeshSO>();
-        asset.meshObject = (GameObject)Resources.Load(settingsData.objectPath + "/" + tempGo.name);
+        asset.meshObject = tempGo;
         
-        AssetDatabase.CreateAsset(asset, settingsData.objectPath + "/" + tempGo.name + ".asset");
+        AssetDatabase.CreateAsset(asset, settingsData.proceduralObjectPath + "/" + tempGo.name + ".asset");
         AssetDatabase.SaveAssets();
         
         DestroyImmediate(tempGo);

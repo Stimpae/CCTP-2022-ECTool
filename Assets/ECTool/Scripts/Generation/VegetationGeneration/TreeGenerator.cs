@@ -189,11 +189,11 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                 if (branch.parent != null && branch.parentSo)
                 {
                     branch.placementNodes = CalculatePlacementNodes(branch.parentSo,
-                        branch.start, branch.end, branch.count, branch.placementType);
+                        branch.positionRange.x, branch.positionRange.y, branch.count);
                 }
                 
-                float rotationIncrement = 360.0f / 6;
-                float rotationOffset = Random.Range(-20, 20);
+                float rotationIncrement = 360.0f / 4;
+                float rotationOffset = Random.Range(-80, 80);
                 float rotationStart = 0 + rotationOffset;
 
                 foreach (var node in branch.placementNodes)
@@ -204,20 +204,33 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
 
                     // set the radius from this node
                     float percentRadius = (node.Radius / 100) * branch.radiusPercentage;
+                    percentRadius += (percentRadius / 100) * Random.Range(-branch.radiusVariationPercentage, branch.radiusVariationPercentage);
                     float radius = percentRadius;
-
-                    int steps = 1 / branch.segments;
-                    float lengthSteps = 1 / (branch.end - branch.start);
-
-                    float newLength = branch.length *
-                                      branch.lengthShape.Evaluate(lengthSteps * node.Position.y);
+                    float steps = (float)1 / branch.segments;
+                    
+                    // Distance between parent segment nodes, first and last to get our parents length;
+                    int count = branch.parentSo.availableNodes.Count - 1;
+                    Vector3 firstNode = branch.parentSo.availableNodes[0].Position;
+                    Vector3 lastNode = branch.parentSo.availableNodes[count].Position;
+                    
+                    Vector3 localNodeFirst = node.RelatedObject.go.transform.InverseTransformPoint(firstNode);
+                    Vector3 localNodeSecond = node.RelatedObject.go.transform.InverseTransformPoint(lastNode);
+                    
+                    float distance = Vector3.Distance(localNodeFirst, localNodeSecond);
+                    float parentLength = 1 / distance;
+                    
+                    Vector3 localPosition = node.RelatedObject.go.transform.InverseTransformPoint(node.Position);
+                    float newLength = branch.length * branch.lengthShape.Evaluate(parentLength * localPosition.y);
+                    newLength += (newLength / 100) *
+                                 Random.Range(-branch.lengthVariationPercentage, branch.lengthVariationPercentage);
 
                     float startingPitch = branch.pitch + Random.Range(-10, 10);
                     float startingRoll = branch.roll + Random.Range(-10, 10);
+                    float yawVariation = Random.Range(branch.yawVariation.x, branch.yawVariation.y);
                     startingPitch -= node.Position.y * branch.upAttraction;
                     
                     meshObject.go.transform.localPosition = new Vector3(node.Position.x, node.Position.y, node.Position.z);
-                    meshObject.go.transform.Rotate(startingRoll, rotationStart, startingPitch);
+                    meshObject.go.transform.Rotate(startingRoll, rotationStart + yawVariation, startingPitch);
 
                     float randomAngle = branch.bend + Random.Range(-branch.randomness, branch.randomness);
                     float bendAngleRadians = randomAngle * Mathf.Deg2Rad;
@@ -243,9 +256,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                         centrePos.x *= bendRadius;
                         centrePos.y *= bendRadius;
                         centrePos -= startOffset;
-
-                        //centrePos += new Vector3(randomX, 0, randomY);
-
+                        
                         float zAngleDegrees = angleInc * i * Mathf.Rad2Deg;
                         Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, zAngleDegrees);
 
@@ -266,7 +277,6 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                                 i > 0, rotation, 0.18f, 4);
 
                         // Adds default nodes for this branch for its children to begin calculating
-
                         Vector3 worldPosition = meshObject.go.transform.TransformPoint(centrePos);
                         branch.segmentNodes.Add(new PlacementNodes(worldPosition, radius, meshObject));
                     }
@@ -274,7 +284,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                     rotationStart += rotationIncrement + rotationOffset;
                 }
 
-                branch.availableNodes = CalculateAvailableNodes(branch, 4.0f, 0.2f);
+                branch.availableNodes = CalculateAvailableNodes(branch, 20.0f, 20.0f);
             }
         }
 
@@ -286,7 +296,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
             if (leaves.parent != null && leaves.parentSo)
             {
                 leaves.placementNodes = CalculatePlacementNodes(leaves.parentSo,
-                    leaves.start, leaves.end, leaves.count, leaves.placementType);
+                    leaves.positionRange.x, leaves.positionRange.y, leaves.count);
        
             }
             
@@ -295,6 +305,17 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
             {
                 foreach (var node in leaves.placementNodes)
                 {
+                    // Distance between parent segment nodes, first and last to get our parents length;
+                    int count = leaves.parentSo.availableNodes.Count - 1;
+                    Vector3 firstNode = leaves.containerObject.go.gameObject.transform.position;
+                    Vector3 lastNode = leaves.parentSo.availableNodes[count].Position;
+                    
+                    float distance = Vector3.Distance(firstNode, lastNode);
+                    float parentLength = 1 / distance;
+                    
+                    float newSize = leaves.size * leaves.lengthShape.Evaluate(parentLength * node.Position.y);
+                    
+                    // Evaluate the size to see how to deal with size and height
                     MeshObject meshObject = new MeshObject(leaves.containerObject.go, leaves.material, "Leaves",
                             "Vegetation");
                     
@@ -305,7 +326,7 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                         meshObject.go.transform.localRotation = rotation * Quaternion.Euler(leaves.yaw, leaves.roll, leaves.pitch);
                         
                         meshObject.MeshFilter.sharedMesh =
-                            MeshHelper.BuildQuadCanopy(Vector3.zero, leaves.size, leaves.size, leaves.scale, 0.15f);
+                            MeshHelper.BuildQuadCanopy(Vector3.zero, newSize, newSize, leaves.scale, leaves.scale);
                 }
             }
         }

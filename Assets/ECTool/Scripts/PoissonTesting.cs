@@ -13,7 +13,7 @@ public class PoissonTesting : MonoBehaviour
     List<Vector2> points;
 
     void OnValidate() {
-        points = PoissonHelper.GeneratePoints(radius, regionSize, rejectionSamples);
+        
     }
 
     void OnDrawGizmos() {

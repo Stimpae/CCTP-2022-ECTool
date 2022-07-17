@@ -7,6 +7,8 @@ public class VegetationSo : ScriptableObject
 {
     [HideInInspector]
     public string name = "Default";
+    
+    [HideInInspector]
     public VegetationContainerObject containerObject;
     
     // Parent information

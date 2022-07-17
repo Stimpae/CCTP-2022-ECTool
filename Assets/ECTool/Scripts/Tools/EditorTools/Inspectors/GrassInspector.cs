@@ -78,9 +78,9 @@ namespace ECTool.Scripts.EditorTools
             {
                 GUILayout.BeginVertical("window");
                 
-               var data = m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected);
                if (m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected) != null)
-               {
+               {   
+                   var data = m_grassCardSO.GetArrayElementAtIndex(m_objectTabSelected);
                    CreateCachedEditor(data.objectReferenceValue, GetType(), ref detailsEditor);
                    DrawFocusedObject();
                }
@@ -159,18 +159,15 @@ namespace ECTool.Scripts.EditorTools
         
         private void DrawObjectList(SerializedProperty list)
         {
+            if (list.arraySize < 0) return;
             for (int i = 0; i < list.arraySize; i++)
             {
-                
-                
                 SerializedProperty property = list.GetArrayElementAtIndex(i);
-
-                if (m_ruleset.GetGameObjectFromProperty(property) == null)
+                
+                if (m_ruleset.GetGameObjectFromProperty(property) == null && property != null)
                 {
                     ShowObject(i, property, list,0);
                 }
-                
-                
             }
         }
 
@@ -212,6 +209,7 @@ namespace ECTool.Scripts.EditorTools
 
                     if (GUILayout.Button("Delete", GUILayout.Height(23), GUILayout.Width(deleteWidth)))
                     {
+                        m_objectTabSelected = -1;
                         m_grassGenerator.DestroyObject(index, list);
                     }
                 }
@@ -226,14 +224,18 @@ namespace ECTool.Scripts.EditorTools
                 {
                     SerializedProperty property = list.GetArrayElementAtIndex(i);
 
+                    if (element.serializedObject == null) return;
+                    
                     if (element.objectReferenceValue is VegetationSo {} vegetationSo)
                     {
-                        if (vegetationSo.containerObject.go == m_ruleset.GetGameObjectFromProperty(property))
+                        if (vegetationSo.containerObject.go != null && vegetationSo.containerObject.go 
+                            == m_ruleset.GetGameObjectFromProperty(property))
                         {
                             for (int j = i; j >= 0; j--)
                             {
                                 SerializedProperty prevProperty = list.GetArrayElementAtIndex(i);
-                                if (vegetationSo.containerObject.go == m_ruleset.GetGameObjectFromProperty(prevProperty))
+                                if (vegetationSo.containerObject.go != null && vegetationSo.containerObject.go 
+                                    == m_ruleset.GetGameObjectFromProperty(prevProperty))
                                 {
                                     break;
                                 }
