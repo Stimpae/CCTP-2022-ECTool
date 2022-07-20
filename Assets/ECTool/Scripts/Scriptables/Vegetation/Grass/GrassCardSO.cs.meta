@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - parent: {instanceID: 0}
   - parentSo: {instanceID: 0}
-  - grassMaterial: {fileID: 2100000, guid: 80823722da9226146bee07997825c1fa, type: 2}
+  - grassMaterial: {fileID: 2100000, guid: 992b63be40c840645a96a1a0e340a225, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

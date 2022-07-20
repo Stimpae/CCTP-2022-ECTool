@@ -117,34 +117,91 @@ public class GrassGenerator : Generator
 
     private void BuildCardGrassScriptable(GrassCardSO grassCardSo)
     {
-        for (int i = 0; i < grassCardSo.count; i++)
+        if (grassCardSo.count > 0)
         {
-            // creates the mesh for this object
-            var cardObject = new MeshObject(grassCardSo.containerObject.go, grassCardSo.grassMaterial, 
-                "Grass Card", "Vegetation");
-            
-            // random position
-            float newX = Random.Range(-grassCardSo.positionVariation, grassCardSo.positionVariation);
-            float newZ = Random.Range(-grassCardSo.positionVariation, grassCardSo.positionVariation);
-            Vector3 newPosition = new Vector3(newX, 0, newZ);
-            cardObject.go.transform.localPosition = newPosition;
-            
-            // Work out the random rotation of each card
-            float randomYaw = Random.Range(-grassCardSo.rotationVariationYaw, grassCardSo.rotationVariationYaw);
-            float randomPitch = Random.Range(-grassCardSo.rotationVariationPitch, grassCardSo.rotationVariationPitch);
+            for (int i = 0; i < grassCardSo.count; i++)
+            {
+                // creates the mesh for this object
+                MeshObject meshObject = new MeshObject(grassCardSo.containerObject.go, grassCardSo.grassMaterial, 
+                    "Grass Card", "Vegetation");
+                
+                // Rotate the actual object to get the correct pitch
+                float yAngle = 360.0f * i / grassCardSo.count;
+                Quaternion radialRotation = Quaternion.Euler(0.0f, yAngle, 0.0f);
+                Vector3 position = radialRotation * Vector3.forward * grassCardSo.radius;
 
-            var currentEular = cardObject.go.transform.localEulerAngles;
-            currentEular.x = randomPitch;
-            currentEular.y = randomYaw;
+                float newX = Random.Range(-grassCardSo.positionOffset, grassCardSo.positionOffset);
+                float newZ = Random.Range(-grassCardSo.positionOffset, grassCardSo.positionOffset);
+                Vector3 newPosition = new Vector3(newX, 0, newZ);
+                
+                float randBend = Random.Range(-grassCardSo.bend, grassCardSo.bend);
+                float randPitch = Random.Range(-grassCardSo.pitchVariation, grassCardSo.pitchVariation);
+                float randYaw = Random.Range(-grassCardSo.yawVariation, grassCardSo.yawVariation);
 
-            cardObject.go.transform.localEulerAngles = currentEular;
-            
-            var pos = grassCardSo.containerObject.go.transform.position;
-            var randScale = UnityEngine.Random.Range(-grassCardSo.scaleVariation, grassCardSo.scaleVariation);
+                meshObject.go.transform.Rotate(-90 + randPitch, yAngle + randYaw, 0);
+                meshObject.go.transform.position = position + newPosition;
+                
+                var randScale = UnityEngine.Random.Range(-grassCardSo.scaleVariation, grassCardSo.scaleVariation);
 
-            // Create the actual mesh and apply it to our shared mesh.
-            cardObject.MeshFilter.sharedMesh =
-                MeshHelper.BuildQuad(pos, grassCardSo.width, grassCardSo.height, randScale);
+                // Builds the leaf segment (just a quad with bottom pivot)
+                meshObject.MeshFilter.sharedMesh = BuildCardPart(Vector3.zero, Quaternion.identity, 
+                    grassCardSo.widthSegments, grassCardSo.heightSegments, 
+                    grassCardSo.height, grassCardSo.width, randBend);
+            }
         }
+    }
+
+    private Mesh BuildCardPart(Vector3 offset, Quaternion rotation,
+        int widthCount, int heightCount, float segmentHeight, float segmentWidth, float bend)
+    {
+        MeshBuilder meshBuilder = new MeshBuilder();
+        
+        float bendAngleRadians = bend * Mathf.Deg2Rad;
+        float angleInc = bendAngleRadians / heightCount;
+
+        float bendRadius = segmentHeight / bendAngleRadians;
+
+        Vector3 startOffset = new Vector3(0.0f, bendRadius, 0.0f);
+        
+        // Collate it into something and pass it through?
+        // Do i need to pass the data through somewhere? 
+        for (int i = 0; i <= heightCount; i++)
+        {
+            // Add uv scaling?
+            var vPos = (1.0f / heightCount) * i;
+            
+            float xOffset = segmentWidth * 0.5f;
+            
+            Vector3 centrePos = Vector3.zero;
+            centrePos.y = Mathf.Cos(angleInc * i);
+            centrePos.z = Mathf.Sin(angleInc * i);
+
+            float bendAngleDegrees = (angleInc * i) * Mathf.Rad2Deg;
+            Quaternion bendRotation = Quaternion.Euler(bendAngleDegrees, 0.0f, 0.0f);
+
+            centrePos *= bendRadius;
+            centrePos -= startOffset;
+
+            Vector3 normal = rotation * (bendRotation * Vector3.up);
+
+            for (int j = 0; j <= widthCount; j++)
+            {
+                float xPos = (segmentWidth / widthCount) * j;
+                
+                // Calculating the U axis for the UVs
+                float uPos = (1.0f / widthCount) * j;
+
+                Vector3 position = offset + rotation * new Vector3(xPos - xOffset, centrePos.y, centrePos.z);
+
+                Vector2 uv = new Vector2(uPos, vPos);
+                
+                bool buildTriangles = i > 0 && j > 0;
+
+                MeshHelper.BuildQuadGrid(meshBuilder, position, uv, buildTriangles,
+                    widthCount + 1, normal);
+            }
+        }
+        
+        return meshBuilder.CreateMesh();
     }
 }

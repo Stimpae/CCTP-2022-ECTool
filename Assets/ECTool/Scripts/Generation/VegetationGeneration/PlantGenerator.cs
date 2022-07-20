@@ -328,7 +328,7 @@ public class PlantGenerator : Generator
                     widthCount + 1, normal);
             }
         }
-
+        
         return meshBuilder.CreateMesh();
     }
 }

@@ -26,15 +26,16 @@ public class GrassCardSO: VegetationSo
     
     [Header("Grass Distortion")]
     [Range(1, 180f)] public float bend = 15.0f;
+    [Range(1, 180f)] public float curve = 1.0f;
     
     [Header("Grass Position")]
-    [Range(0, 1.0f)] public float positionVariation = 0;
+    [Range(0, 1.0f)] public float positionOffset = 0;
     
     [Header("Grass Scale")]
     [Range(0, 1f)] public float scaleVariation = 0;
 
     [Header("Rotation")]
-    [Range(-180, 180)] public float rotationVariationYaw = 0;
-    [Range(-40, 40)] public float rotationVariationPitch= 0;
+    [Range(-180, 180)] public float yawVariation = 0;
+    [Range(-40, 40)] public float pitchVariation= 0;
 }
 

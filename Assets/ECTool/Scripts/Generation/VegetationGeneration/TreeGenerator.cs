@@ -236,6 +236,8 @@ namespace ECTool.Scripts.Generation.VegetationGeneration
                     float bendAngleRadians = randomAngle * Mathf.Deg2Rad;
                     float bendRadius = newLength / bendAngleRadians;
                     float angleInc = bendAngleRadians / branch.segments;
+                    
+                    
                     Vector3 startOffset = new Vector3(bendRadius, 0, 0);
 
                     // calculate random frequency and random strength for sin and cos waves

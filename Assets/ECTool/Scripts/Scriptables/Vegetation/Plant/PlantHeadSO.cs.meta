@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - parent: {instanceID: 0}
   - parentSo: {instanceID: 0}
-  - material: {fileID: 2100000, guid: 80823722da9226146bee07997825c1fa, type: 2}
+  - material: {fileID: 2100000, guid: 5ab97a65bffe87f488b267eb87717165, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

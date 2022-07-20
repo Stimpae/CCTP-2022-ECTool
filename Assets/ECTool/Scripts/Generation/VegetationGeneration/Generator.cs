@@ -273,6 +273,8 @@ public class Generator : MonoBehaviour
             
             // the count we want to distribute across the object
             int tempCount = count >= nodeCount ? nodeCount : count;
+
+            if (nodeCount == 0 || tempCount == 0) continue;
             
             // How many nodes to increment based on the current node count and our tempCount
             int nodeIncrementCount = nodeCount / tempCount;

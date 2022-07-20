@@ -23,7 +23,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Bark_04
-  m_Shader: {fileID: -6465566751694194690, guid: 355cc0af575bd5641a807c979eb90ac3, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 9920c1f1781549a46ba081a2a15a16ec, type: 3}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -194,11 +194,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - BendStrength: 0
+    - BendStrength: 10
     - Clip: 0
     - Diffusion_Profile: 3.5648174
     - EFFECT_BILLBOARD: 0
-    - EFFECT_EXTRA_TEX: 1
+    - EFFECT_EXTRA_TEX: 0
     - _AO: 2.4
     - _AORemapMax: 1
     - _AORemapMin: 0
@@ -206,7 +206,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
     - _AlphaClip: 0
-    - _AlphaClipThreshold: 0.178
+    - _AlphaClipThreshold: 0.138
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
@@ -256,7 +256,7 @@ Material:
     - _EnergyConservingSpecularColor: 1
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
-    - _Glossiness: 0
+    - _Glossiness: 0.052
     - _GlossyReflections: 0
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
@@ -281,6 +281,7 @@ Material:
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
+    - _OldHueVarBehavior: 0
     - _OpaqueCullMode: 2
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -317,7 +318,7 @@ Material:
     - _StencilWriteMaskDistortionVec: 4
     - _StencilWriteMaskGBuffer: 14
     - _StencilWriteMaskMV: 40
-    - _SubsurfaceIndirect: 0.25
+    - _SubsurfaceIndirect: 0
     - _SubsurfaceKwToggle: 0
     - _SubsurfaceMask: 1
     - _SubsurfaceScale: 0.0001
@@ -358,7 +359,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Diffusion_Profile_Asset: {r: 0, g: 0, b: 0, a: 0.00018220427}
-    - Direction: {r: 1, g: 1, b: 0, a: 0}
+    - Direction: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
